@@ -272,7 +272,7 @@ function getInfo(Mode, Boss) {
 		inf[0] = "No additional info available.";
 	    }
 
-	    if (fBoss.spawn != null) {
+	    if (fBoss.spawn != null && fs.statSync(filePath).isFile()) {
 		inf[1] = fBoss.spawn;
 	    } else {
 		inf[1] = null;
