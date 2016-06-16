@@ -242,6 +242,48 @@ function WarToDe(War) {
   }
 */
 
+function getInfo(Mode, Boss) {
+    switch (Mode) {
+    case "B":
+	var Bosses = require("./Bosses.json");
+	//Find corresponding Boss
+	var sBoss = 0;
+	var found = 0;
+	for (var BOSS in Bosses) {
+	    var cBoss = Bosses[BOSS];
+	    console.log("Boss: " + Boss +  " cBoss.name: " + cBoss.name + " cBoss.time: " + cBoss.time);
+	    if (cBoss.name == Boss) {
+		sBoss = BOSS;
+		found = 1;
+		break;
+	    }
+	}
+
+	if (!found) {
+	    console.log("Couldn't find Boss called: " + Boss);
+	    return "Couldn't find Boss called: " + Boss;
+	} else {
+	    //Spawn map name and additional info if available
+	    var fBoss = Bosses[sBoss];
+	    var inf = [];
+	    if (fBoss.info != null) {
+		inf[0] = fBoss.info;
+	    } else {
+		inf[0] = "No additional info available.";
+	    }
+
+	    if (fBoss.spawn != null) {
+		inf[1] = fBoss.spawn;
+	    } else {
+		inf[1] = null;
+	    }
+
+	    console.log("Info for " + fBoss.name + " is stored in file: " + inf[1]);
+	    return inf;
+	}
+    }
+}
+
 function killedBoss(Boss, d) {
     var Bosses = require("./Bosses.json");
     var cTime = d===0?new Date():d;
@@ -341,10 +383,10 @@ function getBosses() {
 	for (var BOSS in Bosses) {
 	    var fBoss = Bosses[BOSS];
 	    if (sBoss.includes(" " + BOSS)) {
-	    var next = "";
-	    next = "This Boss might be available!";
-	    var add = "+ " + fBoss.name + " got last killed: " + new Date(fBoss.time).toUTCString() + ".          " + next + "\n";
-	    console.log(add);
+		var next = "";
+		next = "This Boss might be available!";
+		var add = "+ " + fBoss.name + " got last killed: " + new Date(fBoss.time).toUTCString() + ".          " + next + "\n";
+		console.log(add);
 		if (allBosses[ind].length + add.length + 3 > 2000) {
 		    allBosses[ind] += "```";
 		    ++ind;
@@ -435,29 +477,29 @@ function bossesToExcel(utcOff, Amee, channel) {
     sheet1.set(1, 2, 'Killed');
     sheet1.set(1, 3, 'Respawn');
     for (var i = 2; i < Bosses.length+2; i++) {
-	sheet1.set(i, 1, Bosses[i-2].name);
-	sheet1.set(i, 2, Bosses[i-2].time);
-	sheet1.set(i, 3, "=(" + JSDateToExcelDate(new Date(Bosses[Boss].time)) + "-NOW())*24");
+    sheet1.set(i, 1, Bosses[i-2].name);
+    sheet1.set(i, 2, Bosses[i-2].time);
+    sheet1.set(i, 3, "=(" + JSDateToExcelDate(new Date(Bosses[Boss].time)) + "-NOW())*24");
     }
     // Save it
     workbook.save(function(ok){
-	if (!ok)
-	    workbook.cancel();
-	else
-	    console.log('congratulations, your workbook created');
+    if (!ok)
+    workbook.cancel();
+    else
+    console.log('congratulations, your workbook created');
     });
-*/    /*
-    for (var Boss in Bosses) {
-	var cBoss = Bosses[Boss];
-	Bosses[Boss].next = "=(" + JSDateToExcelDate(new Date(Bosses[Boss].time)) + "-NOW())*24";
-    }
-    var json2xls = require('json2xls');
-    var xls = json2xls(Bosses);
+    */    /*
+	    for (var Boss in Bosses) {
+	    var cBoss = Bosses[Boss];
+	    Bosses[Boss].next = "=(" + JSDateToExcelDate(new Date(Bosses[Boss].time)) + "-NOW())*24";
+	    }
+	    var json2xls = require('json2xls');
+	    var xls = json2xls(Bosses);
 
-    fs.writeFileSync('Bosses.xlsx', xls, 'binary');
-    
-    return xls;
-    */
+	    fs.writeFileSync('Bosses.xlsx', xls, 'binary');
+	    
+	    return xls;
+	  */
 }
 
 var Discord = require("discord.js");
@@ -465,10 +507,10 @@ var Discord = require("discord.js");
 var Amee = new Discord.Client();
 
 /*Amee.on("presence", function(oldUser, newUser) {
-    if (oldUser.status == "offline" && newUser.status == "online" && Amee.servers.get("name", "Ryzom Karavan").rolesOfUser(newUser).length != 0) {
-	Amee.sendMessage(Amee.servers.get("name", "Ryzom Karavan").channels.get("name", "general"), Amee.user.username + " aiye, " + newUser + "!");
-    };
-});*/
+  if (oldUser.status == "offline" && newUser.status == "online" && Amee.servers.get("name", "Ryzom Karavan").rolesOfUser(newUser).length != 0) {
+  Amee.sendMessage(Amee.servers.get("name", "Ryzom Karavan").channels.get("name", "general"), Amee.user.username + " aiye, " + newUser + "!");
+  };
+  });*/
 
 Amee.on("message", function(message) {
     var Wars = require("./Wars.json");
@@ -481,14 +523,14 @@ Amee.on("message", function(message) {
 		Amee.sendMessage(message.channel, Amee.user.username + " hugs " + Arg + "!");
 	    }
 	} else {
-	Amee.sendMessage(message.channel, Amee.user.username + " hugs " + message.author);
+	    Amee.sendMessage(message.channel, Amee.user.username + " hugs " + message.author);
 	}
     } else if (message.content.substring(0, 7).toLowerCase() == "/cookie") {
 	var mEnd = ", take this cookie as a gift from me.\n               ``_.:::::._\n     .:::'_|_':::.\n    /::' --|-- '::\\ \n   |:\" .---\"---. ':|\n   |: ( O R E O ) :|\n   |:: `-------' ::|\n    \\:::.......:::/\n     ':::::::::::'\n        `'\"\"\"'` ``"
 	var Arg = message.content.substring(8, message.content.length);
 	if (Arg != "") {
 	    if (Amee.users.get("username", Arg) != null) {
-	    Amee.sendMessage(message.channel, Amee.user.username + " aiye, " + Amee.users.get("username", Arg) + mEnd);
+		Amee.sendMessage(message.channel, Amee.user.username + " aiye, " + Amee.users.get("username", Arg) + mEnd);
 	    } else {
 		Amee.sendMessage(message.channel, Amee.user.username + " aiye, " + Arg + mEnd);
 	    }
@@ -500,7 +542,7 @@ Amee.on("message", function(message) {
 	var Arg = message.content.substring(6, message.content.length);
 	if (Arg != "") {
 	    if (Amee.users.get("username", Arg) != null) {
-	    Amee.sendMessage(message.channel, Amee.user.username + " aiye, " + Amee.users.get("username", Arg) + mEnd);
+		Amee.sendMessage(message.channel, Amee.user.username + " aiye, " + Amee.users.get("username", Arg) + mEnd);
 	    } else {
 		Amee.sendMessage(message.channel, Amee.user.username + " aiye, " + Arg + mEnd);
 	    }
@@ -513,7 +555,7 @@ Amee.on("message", function(message) {
 	var Arg = message.content.substring(8, message.content.length);
 	if (Arg != "") {
 	    if (Amee.users.get("username", Arg) != null) {
-	    Amee.sendMessage(message.channel, Amee.user.username + " aiye, " + Amee.users.get("username", Arg) + mEnd);
+		Amee.sendMessage(message.channel, Amee.user.username + " aiye, " + Amee.users.get("username", Arg) + mEnd);
 	    } else {
 		Amee.sendMessage(message.channel, Amee.user.username + " aiye, " + Arg + mEnd);
 	    }
@@ -602,6 +644,27 @@ Amee.on("message", function(message) {
 	    if (Arg == "") Arg = 0;
 	    bossesToExcel(Arg, Amee, message.channel);
 	}
+    } else if (message.content.substring(0, 7).toLowerCase() == "/getinf") {
+	if (message.channel.server.name == "Ryzom Karavan") {
+	    Amee.sendMessage(message.channel, "This functionality isn't available.");
+	} else {
+	    var sArg = message.content.substring(8, message.content.length);
+            var aArg = sArg.split(' ');
+	    if (aArg.length > 2) {
+		Amee.sendMessage(message.channel, "Too many Arguments. Use either:```xl\n/getinf B Boss     'gives info and map of spawns for Boss'\n```");
+	    } else if (aArg.length == 2 && aArg[0] != "") {
+		if (aArg[0] == "B") {
+		    var info = getInfo(aArg[0], aArg[1]);
+		    Amee.sendMessage(message.channel, info[0]);
+		    if (info[1] != null)
+			Amee.sendFile(message.channel, "./ressources/info/" + info[1], info[1]);
+		} else {
+		    Amee.sendMessage(message.channel, "Unknown mode: " + aArg[0] + ". For now only this is supported:```xl\n/getinf B Boss     'gives info and map of spawns for Boss'\n```");
+		}
+	    } else {
+		Amee.sendMessage(message.channel, "Not enough Arguments. Use either:```xl\n/getinf B Boss     'gives info and map of spawns for Boss'\n```");
+	    }
+	}
     } else if (message.content.substring(0, 5).toLowerCase() == "/help") {
 	if (message.channel.server.name == "Ryzom Karavan") {
 	    Amee.sendMessage(message.channel, "```xl\nAvailable Commands: /help /wars /newwar /hugs /cookie /milk /coffee\n```");
@@ -613,7 +676,9 @@ Amee.on("message", function(message) {
 });
 
 Amee.on("serverNewMember", function(server, user) {
-    Amee.sendMessage(Amee.servers.get("name", "Ryzom Karavan").channels.get("name", "verification"), Amee.user.username + " Aiye, my follower! Welcome to the Ryzom Karavan Discord Server! Please leave a message with @Administrators, telling your in-game name and which Guild you're in, so we can ensure that no spies have access to our server.");
+    if (server.name == "Ryzom Karavan") {
+	Amee.sendMessage(Amee.servers.get("name", "Ryzom Karavan").channels.get("name", "verification"), Amee.user.username + " Aiye, my follower! Welcome to the Ryzom Karavan Discord Server! Please leave a message with @Administrators, telling your in-game name and which Guild you're in, so we can ensure that no spies have access to our server.");
+    }
 });
 
 Amee.on("ready", function() {
