@@ -1,0 +1,13 @@
+[Unit]
+Description=Amee
+After=network.target
+[Service]
+ExecStart=/home/pi/Ryzom/Tools/Discord-Bot/amee.js
+Restart=always
+User=nobody
+Group=nobody
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=NODE_ENV=production
+WorkingDirectory=/home/pi/Ryzom/Tools/Discord-Bot
+[Install]
+WantedBy=multi-user.target
