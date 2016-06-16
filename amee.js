@@ -314,7 +314,7 @@ function getBoss(Boss) {
 function getBosses() {
     var Bosses = require("./Bosses.json");
     //Find corresponding Boss
-    var sBoss = [];
+    var sBoss = "";
     var found = 0;
     for (var BOSS in Bosses) {
 	var cBoss = Bosses[BOSS];
@@ -322,9 +322,9 @@ function getBosses() {
 	bTime.setTime(bTime.getTime() + (48 * 60 * 60 * 1000));
 	var tillArr = timeToGo(bTime);
 	if (tillArr[3] < 0) {
-	    sBoss[sBoss.length] = BOSS;
+	    sBoss += " " + BOSS;
+	    console.log("Added " + BOSS + " to possible spawned bosses");
 	    found = 1;
-	    break;
 	}
     }
 
@@ -333,18 +333,42 @@ function getBosses() {
 	return ["Couldn't find any possibly spawned boss."];
     } else {
 	//Return all available boss
-	var allBosses = [""];
+	var allBosses = ["```diff\n"];
 	var ind = 0;
-	for (var BOSS in sBoss) {
-	    var fBoss = Bosses[sBoss[BOSS]];
+	var nind = 0;
+	var nSpawned = 0;
+	var nBosses = ["```diff\n- These bosses are not spawned: "];
+	for (var BOSS in Bosses) {
+	    var fBoss = Bosses[BOSS];
+	    if (sBoss.includes(" " + BOSS)) {
 	    var next = "";
 	    next = "This Boss might be available!";
-	    var add = fBoss.name + " got last killed: " + new Date(fBoss.time).toUTCString() + ".          " + next + "\n";
+	    var add = "+ " + fBoss.name + " got last killed: " + new Date(fBoss.time).toUTCString() + ".          " + next + "\n";
 	    console.log(add);
-	    if (allBosses[ind].length + add.length > 2000) ++ind;
-	    allBosses[ind] += add;
+		if (allBosses[ind].length + add.length + 3 > 2000) {
+		    allBosses[ind] += "```";
+		    ++ind;
+		    nBosses[ind] = "```diff \n";
+		}
+		allBosses[ind] += add;
+	    } else {
+		if (nSpawned == 0) {
+		    nBosses[nind] += fBoss.name;
+		} else {
+		    var nadd = ", " + fBoss.name;
+		    if (nBosses[nind].length + nadd.length + 3 > 2000) {
+			nBosses[nind] += "```";
+			++nind;
+			nBosses[nind] = "```diff\n";
+		    }
+		    nBosses[nind] += nadd;
+		}
+		++nSpawned;
+	    }
 	}
-	return allBosses;
+	allBosses[ind] += "```";
+	nBosses[nind] += "```";
+	return allBosses.concat(nBosses);
     }
 }
 
@@ -448,7 +472,7 @@ var Amee = new Discord.Client();
 
 Amee.on("message", function(message) {
     var Wars = require("./Wars.json");
-    if (message.content.substring(0, 5) == "/hugs") {
+    if (message.content.substring(0, 5).toLowerCase() == "/hugs") {
 	var Arg = message.content.substring(6, message.content.length);
 	if (Arg != "") {
 	    if (Amee.users.get("username", Arg) != null) {
@@ -459,7 +483,7 @@ Amee.on("message", function(message) {
 	} else {
 	Amee.sendMessage(message.channel, Amee.user.username + " hugs " + message.author);
 	}
-    } else if (message.content.substring(0, 7) == "/cookie") {
+    } else if (message.content.substring(0, 7).toLowerCase() == "/cookie") {
 	var mEnd = ", take this cookie as a gift from me.\n               ``_.:::::._\n     .:::'_|_':::.\n    /::' --|-- '::\\ \n   |:\" .---\"---. ':|\n   |: ( O R E O ) :|\n   |:: `-------' ::|\n    \\:::.......:::/\n     ':::::::::::'\n        `'\"\"\"'` ``"
 	var Arg = message.content.substring(8, message.content.length);
 	if (Arg != "") {
@@ -471,7 +495,7 @@ Amee.on("message", function(message) {
 	} else {
 	    Amee.sendMessage(message.channel, Amee.user.username + " aiye, " + message.author + mEnd);
 	}
-    } else if (message.content.substring(0, 5) == "/milk") {
+    } else if (message.content.substring(0, 5).toLowerCase() == "/milk") {
 	var mEnd = "! Here you have some milk and cookies as a gift from me!\n                                                                      ``.-'''''-.\n                               |'-----'|\n                               |-.....-|\n                               |       |\n                               |       |\n              _,._             |       |\n         __.o`   o`\"-.         |       |\n      .-O o `\"-.o   O )_,._    |       |\n     ( o   O  o )--.-\"`O   o\"-.`'-----'`\n      '--------'  (   o  O    o)  \n                   `----------` ``";
 	var Arg = message.content.substring(6, message.content.length);
 	if (Arg != "") {
@@ -483,7 +507,7 @@ Amee.on("message", function(message) {
 	} else {
 	    Amee.sendMessage(message.channel, Amee.user.username + " aiye, " + message.author + mEnd);
 	}
-    }  else if (message.content.substring(0, 7) == "/coffee") {
+    }  else if (message.content.substring(0, 7).toLowerCase() == "/coffee") {
 	console.log("giving out coffee");
 	var mEnd = "! Here you have some coffee as a gift from me!\n   ( (\n    ) )\n  ..............\n  |           |]\n  \\         /\n    `----'";
 	var Arg = message.content.substring(8, message.content.length);
@@ -496,7 +520,7 @@ Amee.on("message", function(message) {
 	} else {
 	    Amee.sendMessage(message.channel, Amee.user.username + " aiye, " + message.author + mEnd);
 	}
-    } else if (message.content.substring(0, 5) == "/wars") {
+    } else if (message.content.substring(0, 5).toLowerCase() == "/wars") {
 	UpdateWars();
 	console.log(Wars.length);
 	if (Wars.length == 0) {
@@ -507,7 +531,7 @@ Amee.on("message", function(message) {
 		Amee.sendMessage(message.channel, WarToEn(Wars[War]) + "\n" + WarToFr(Wars[War]) + "\n" + WarToDe(Wars[War]));
 	    }
 	}
-    } else if (message.content.substring(0, 7) == "/newWar") {
+    } else if (message.content.substring(0, 7).toLowerCase() == "/newwar") {
 	UpdateWars();
 	var sArg = message.content.substring(8, message.content.length);
 	var aArg = sArg.split(';');
@@ -528,11 +552,11 @@ Amee.on("message", function(message) {
 	    var success = NewWar(Prod, Q, Attacker, AttFaction, Help, Minute, Hour, Day, Month);
 	    Amee.sendMessage(message.channel, success);
 	}
-    } else if (message.content.substring(0, 4) == "/ops") {
+    } else if (message.content.substring(0, 4).toLowerCase() == "/ops") {
 	var Outposts = require("./Outposts.json");
 	console.log(JSON.stringify(Outposts, null, 2));
 	Amee.sendMessage(message.channel, JSON.stringify(Outposts, null, 2));
-    } else if (message.content.substring(0, 11) == "/killedBoss") {
+    } else if (message.content.substring(0, 11).toLowerCase() == "/killedboss") {
 	if (message.channel.server.name == "Ryzom Karavan") {
 	    Amee.sendMessage(message.channel, "This functionality isn't available.");
 	} else{
@@ -540,25 +564,25 @@ Amee.on("message", function(message) {
 	    var sArg = message.content.substring(12, message.content.length);
 	    var aArg = sArg.split(' ');
 	    if (aArg.length > 2) {
-                Amee.sendMessage(message.channel, "Too many Arguments. Use either:\n/killedBoss Boss     -     registers kill for Boss at current time\n/killedBoss Boss ISOTimeStamp     -     registers kill for Boss at ISOTimeStamp\nCurrent ISO Timestamp: " + new Date().toISOString());
+                Amee.sendMessage(message.channel, "Too many Arguments. Use either:```xl\n/killedboss Boss     'registers kill for Boss at current time'\n/killedboss Boss ISOTimeStamp     'registers kill for Boss at ISOTimeStamp'\nCurrent ISO Timestamp: " + new Date().toISOString() + "\n```");
 	    } else if (aArg.length == 2) {
 		Amee.sendMessage(message.channel, killedBoss(aArg[0], new Date(aArg[1])));
 	    } else if (aArg.length == 1 && aArg[0] != "") {
 		Amee.sendMessage(message.channel, killedBoss(aArg[0], 0));
 	    } else {
-		Amee.sendMessage(message.channel, "Not enough Arguments. Use either:\n/killedBoss Boss     -     registers kill for Boss at current time\n/killedBoss Boss ISOTimeStamp     -     registers kill for Boss at ISOTimeStamp\nCurrent ISO Timestamp: " + new Date().toISOString());
+		Amee.sendMessage(message.channel, "Too many Arguments. Use either:```xl\n/killedboss Boss     'registers kill for Boss at current time'\n/killedboss Boss ISOTimeStamp     'registers kill for Boss at ISOTimeStamp'\nCurrent ISO Timestamp: " + new Date().toISOString() + "\n```");
 	    }
 	}
-    } else if (message.content.substring(0, 8) == "/getBoss") {
+    } else if (message.content.substring(0, 8).toLowerCase() == "/getboss") {
         if (message.channel.server.name == "Ryzom Karavan") {
 	    Amee.sendMessage(message.channel, "This functionality isn't available.");
 	} else {
 	    var sArg = message.content.substring(9, message.content.length);
             var aArg = sArg.split(' ');
 	    if (aArg.length > 1) {
-		Amee.sendMessage(message.channel, "Too many Arguments. Use either:\n/getBoss Boss     -     gets last kill and earliest respawn for Boss\n/getBoss *     -     gets all Bosses that could currently be spawned");
+		Amee.sendMessage(message.channel, "Too many Arguments. Use either:```xl\n/getboss Boss     'gets last kill and earliest respawn for Boss'\n/getboss all     'gets all Bosses that could currently be spawned'\n```");
 	    } else if (aArg.length == 1 && aArg[0] != "") {
-		if (aArg[0] == "*") {
+		if (aArg[0] == "all") {
 		    var bosses = getBosses();
 		    for (var port in bosses) {
 			Amee.sendMessage(message.channel, bosses[port]);
@@ -567,10 +591,10 @@ Amee.on("message", function(message) {
 		    Amee.sendMessage(message.channel, getBoss(aArg[0]));
 		}
 	    } else {
-		Amee.sendMessage(message.channel, "Not enough Arguments. Use either:\n/getBoss Boss     -     gets last kill and earliest respawn for Boss\n/getBoss *     -     gets all Bosses that could currently be spawned");
+		Amee.sendMessage(message.channel, "Not enough Arguments. Use either:```xl\n/getboss Boss     'gets last kill and earliest respawn for Boss'\n/getboss all     'gets all Bosses that could currently be spawned'\n```");
 	    }
 	}
-    } else if (message.content.substring(0, 8) == "/xlsBoss") {
+    } else if (message.content.substring(0, 8).toLowerCase() == "/xlsboss") {
 	if (message.channel.server.name == "Ryzom Karavan") {
 	    Amee.sendMessage(message.channel, "This functionality isn't available.");
 	} else{
@@ -578,7 +602,14 @@ Amee.on("message", function(message) {
 	    if (Arg == "") Arg = 0;
 	    bossesToExcel(Arg, Amee, message.channel);
 	}
+    } else if (message.content.substring(0, 5).toLowerCase() == "/help") {
+	if (message.channel.server.name == "Ryzom Karavan") {
+	    Amee.sendMessage(message.channel, "```xl\nAvailable Commands: /help /wars /newwar /hugs /cookie /milk /coffee\n```");
+	} else{
+	    Amee.sendMessage(message.channel, "```xl\nAvailable Commands: /help /getboss /killedboss /xlsboss /wars /newwar /hugs /cookie /milk /coffee\n```");
+	}
     }
+    
 });
 
 Amee.on("serverNewMember", function(server, user) {
