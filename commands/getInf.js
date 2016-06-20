@@ -24,12 +24,14 @@ function getInfo(Mode, Subject) {
 	    if (fBoss.info != null) {
 		inf[0] = fBoss.info;
 	    }
-
+	try{
 	    if (fBoss.spawn != null && fs.statSync(__dirname + "/../ressources/bosses/spawns/" + fBoss.spawn).isFile()) {
 		inf[1] = __dirname + "/../ressources/bosses/spawns/" + fBoss.spawn;
 		inf[2] = fBoss.region==null?fBoss.spawn:fBoss.region;
 	    }
+	} catch(e) {
 
+	}
 	    console.log("Info for " + fBoss.name + " is stored in file: " + inf[1]);
 	break;
     case "L":
@@ -38,74 +40,122 @@ function getInfo(Mode, Subject) {
 	case "Matis":
 	case "Forest":
 	    var infoText = __dirname + "/../ressources/regions/info/vh.txt";
+	    try {
 	    if (fs.statSync(infoText).isFile()) {
 		inf[0] = fs.readFileSync(infoText, "utf8");
 	    }
+	    } catch(e) {
+		
+	    }
 	    var pic = __dirname + "/../ressources/regions/map/vh.png";
+	    try {
 	    if (fs.statSync(pic).isFile()) {
 		inf[1] = pic;
 		inf[2] = Subject;
+	    }
+	    } catch(e) {
+		
 	    }
 	    break;
 	case "Aeden Aqueous":
 	case "Tryker":
 	case "Lakes":
 	    var infoText = __dirname + "/../ressources/regions/info/aa.txt";
+	    try {
 	    if (fs.statSync(infoText).isFile()) {
 		inf[0] = fs.readFileSync(infoText, "utf8");
 	    }
+	    } catch(e) {
+		
+	    }
 	    var pic = __dirname + "/../ressources/regions/map/aa.png";
+	    try {
 	    if (fs.statSync(pic).isFile()) {
 		inf[1] = pic;
 		inf[2] = Subject;
+	    }
+	    } catch(e) {
+		
 	    }
 	    break;
 	case "Witherings":
 	case "Zorai":
 	case "Jungle":
 	    var infoText = __dirname + "/../ressources/regions/info/wi.txt";
+	    try {
 	    if (fs.statSync(infoText).isFile()) {
 		inf[0] = fs.readFileSync(infoText, "utf8");
 	    }
+	    } catch(e) {
+		
+	    }
 	    var pic = __dirname + "/../ressources/regions/map/wi.png";
+	    try {
 	    if (fs.statSync(pic).isFile()) {
 		inf[1] = pic;
 		inf[2] = Subject;
+	    }
+	    } catch(e) {
+		
 	    }
 	    break;
 	case "Burning Desert":
 	case "Fyros":
 	case "Desert":
 	    var infoText = __dirname + "/../ressources/regions/info/bd.txt";
+	    try {
 	    if (fs.statSync(infoText).isFile()) {
 		inf[0] = fs.readFileSync(infoText, "utf8");
 	    }
+	    } catch(e) {
+		
+	    }
 	    var pic = __dirname + "/../ressources/regions/map/bd.png";
+	    try {
 	    if (fs.statSync(pic).isFile()) {
 		inf[1] = pic;
 		inf[2] = Subject;
+	    }
+	    } catch(e) {
+		
 	    }
 	    break;
 	case "Nexus":
 	    var infoText = __dirname + "/../ressources/regions/info/ne.txt";
+	    try {
 	    if (fs.statSync(infoText).isFile()) {
 		inf[0] = fs.readFileSync(infoText, "utf8");
 	    }
+	    } catch(e) {
+		
+	    }
 	    var pic = __dirname + "/../ressources/regions/map/ne.png";
+	    try {
 	    if (fs.statSync(pic).isFile()) {
 		inf[1] = pic;
 		inf[2] = Subject;
+	    }
+	    } catch(e) {
+		
 	    }
 	    break;
 	case "Wastelands":
 	    var infoText = __dirname + "/../ressources/regions/info/wl.txt";
+	    try {
 	    if (fs.statSync(infoText).isFile()) {
 		inf[0] = fs.readFileSync(infoText, "utf8");
 	    }
+	    } catch(e) {
+		
+	    }
 	    var pic = __dirname + "/../ressources/regions/map/wl.png";
+	    try {
 	    if (fs.statSync(pic).isFile()) {
 		inf[1] = pic;
 		inf[2] = Subject;
+	    }
+	    } catch(e) {
+		
 	    }
 	    break;
 	default:
