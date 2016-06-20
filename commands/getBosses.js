@@ -29,6 +29,7 @@ function getBosses() {
 	var nBosses = ["```diff\n- These bosses are not spawned: "];
 	for (var BOSS in Bosses) {
 	    var fBoss = Bosses[BOSS];
+	    console.log(BOSS);
 	    if (sBoss.includes(" " + BOSS)) {
 		if (Spawned == 0) {
 		    Bosses[ind] += fBoss.name;
