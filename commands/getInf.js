@@ -130,9 +130,7 @@ geti.main = (bot, msg) => {
     } else {
 	var help = "Use: ```xl\n/amee getInf B Boss     'gives info and map of spawns for Boss'\n/amee getInf L Land     'gives info and map of spawns for region'\n```";
         var aArg = msg.content.split(' ');
-	if (aArg.length > 4) {
-	    bot.sendMessage(msg.channel, "Too many Arguments. " + help);
-	} else if (aArg.length == 4) {
+	if (aArg.length >= 4) {
 	    if (aArg[2] == "B" || aArg[2] == "R") {
 		var info = getInfo(aArg[2], aArg.slice(3).join(" "));
 		if (info[0] != null)
