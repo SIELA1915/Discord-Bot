@@ -1,7 +1,6 @@
 var fs = require("fs");
 
 function getInfo(Mode, Subject) {
-    console.log(Mode + " " + Subject);
     var inf = [];
     switch (Mode) {
     case "B":
@@ -19,11 +18,11 @@ function getInfo(Mode, Subject) {
 	    }
 	}
 
-	    //Spawn map name and additional info if available
-	    var fBoss = Bosses[sBoss];
-	    if (fBoss.info != null) {
-		inf[0] = fBoss.info;
-	    }
+	//Spawn map name and additional info if available
+	var fBoss = Bosses[sBoss];
+	if (fBoss.info != null) {
+	    inf[0] = fBoss.info;
+	}
 	try{
 	    if (fBoss.spawn != null && fs.statSync(__dirname + "/../ressources/bosses/spawns/" + fBoss.spawn).isFile()) {
 		inf[1] = __dirname + "/../ressources/bosses/spawns/" + fBoss.spawn;
@@ -32,7 +31,7 @@ function getInfo(Mode, Subject) {
 	} catch(e) {
 
 	}
-	    console.log("Info for " + fBoss.name + " is stored in file: " + inf[1]);
+	console.log("Info for " + fBoss.name + " is stored in file: " + inf[1]);
 	break;
     case "L":
 	switch(Subject){
@@ -41,18 +40,18 @@ function getInfo(Mode, Subject) {
 	case "Forest":
 	    var infoText = __dirname + "/../ressources/regions/info/vh.txt";
 	    try {
-	    if (fs.statSync(infoText).isFile()) {
-		inf[0] = fs.readFileSync(infoText, "utf8");
-	    }
+		if (fs.statSync(infoText).isFile()) {
+		    inf[0] = fs.readFileSync(infoText, "utf8");
+		}
 	    } catch(e) {
 		
 	    }
 	    var pic = __dirname + "/../ressources/regions/map/vh.png";
 	    try {
-	    if (fs.statSync(pic).isFile()) {
-		inf[1] = pic;
-		inf[2] = Subject;
-	    }
+		if (fs.statSync(pic).isFile()) {
+		    inf[1] = pic;
+		    inf[2] = Subject;
+		}
 	    } catch(e) {
 		
 	    }
@@ -62,18 +61,18 @@ function getInfo(Mode, Subject) {
 	case "Lakes":
 	    var infoText = __dirname + "/../ressources/regions/info/aa.txt";
 	    try {
-	    if (fs.statSync(infoText).isFile()) {
-		inf[0] = fs.readFileSync(infoText, "utf8");
-	    }
+		if (fs.statSync(infoText).isFile()) {
+		    inf[0] = fs.readFileSync(infoText, "utf8");
+		}
 	    } catch(e) {
 		
 	    }
 	    var pic = __dirname + "/../ressources/regions/map/aa.png";
 	    try {
-	    if (fs.statSync(pic).isFile()) {
-		inf[1] = pic;
-		inf[2] = Subject;
-	    }
+		if (fs.statSync(pic).isFile()) {
+		    inf[1] = pic;
+		    inf[2] = Subject;
+		}
 	    } catch(e) {
 		
 	    }
@@ -83,18 +82,18 @@ function getInfo(Mode, Subject) {
 	case "Jungle":
 	    var infoText = __dirname + "/../ressources/regions/info/wi.txt";
 	    try {
-	    if (fs.statSync(infoText).isFile()) {
-		inf[0] = fs.readFileSync(infoText, "utf8");
-	    }
+		if (fs.statSync(infoText).isFile()) {
+		    inf[0] = fs.readFileSync(infoText, "utf8");
+		}
 	    } catch(e) {
 		
 	    }
 	    var pic = __dirname + "/../ressources/regions/map/wi.png";
 	    try {
-	    if (fs.statSync(pic).isFile()) {
-		inf[1] = pic;
-		inf[2] = Subject;
-	    }
+		if (fs.statSync(pic).isFile()) {
+		    inf[1] = pic;
+		    inf[2] = Subject;
+		}
 	    } catch(e) {
 		
 	    }
@@ -104,18 +103,18 @@ function getInfo(Mode, Subject) {
 	case "Desert":
 	    var infoText = __dirname + "/../ressources/regions/info/bd.txt";
 	    try {
-	    if (fs.statSync(infoText).isFile()) {
-		inf[0] = fs.readFileSync(infoText, "utf8");
-	    }
+		if (fs.statSync(infoText).isFile()) {
+		    inf[0] = fs.readFileSync(infoText, "utf8");
+		}
 	    } catch(e) {
 		
 	    }
 	    var pic = __dirname + "/../ressources/regions/map/bd.png";
 	    try {
-	    if (fs.statSync(pic).isFile()) {
-		inf[1] = pic;
-		inf[2] = Subject;
-	    }
+		if (fs.statSync(pic).isFile()) {
+		    inf[1] = pic;
+		    inf[2] = Subject;
+		}
 	    } catch(e) {
 		
 	    }
@@ -123,18 +122,18 @@ function getInfo(Mode, Subject) {
 	case "Nexus":
 	    var infoText = __dirname + "/../ressources/regions/info/ne.txt";
 	    try {
-	    if (fs.statSync(infoText).isFile()) {
-		inf[0] = fs.readFileSync(infoText, "utf8");
-	    }
+		if (fs.statSync(infoText).isFile()) {
+		    inf[0] = fs.readFileSync(infoText, "utf8");
+		}
 	    } catch(e) {
 		
 	    }
 	    var pic = __dirname + "/../ressources/regions/map/ne.png";
 	    try {
-	    if (fs.statSync(pic).isFile()) {
-		inf[1] = pic;
-		inf[2] = Subject;
-	    }
+		if (fs.statSync(pic).isFile()) {
+		    inf[1] = pic;
+		    inf[2] = Subject;
+		}
 	    } catch(e) {
 		
 	    }
@@ -142,18 +141,18 @@ function getInfo(Mode, Subject) {
 	case "Wastelands":
 	    var infoText = __dirname + "/../ressources/regions/info/wl.txt";
 	    try {
-	    if (fs.statSync(infoText).isFile()) {
-		inf[0] = fs.readFileSync(infoText, "utf8");
-	    }
+		if (fs.statSync(infoText).isFile()) {
+		    inf[0] = fs.readFileSync(infoText, "utf8");
+		}
 	    } catch(e) {
 		
 	    }
 	    var pic = __dirname + "/../ressources/regions/map/wl.png";
 	    try {
-	    if (fs.statSync(pic).isFile()) {
-		inf[1] = pic;
-		inf[2] = Subject;
-	    }
+		if (fs.statSync(pic).isFile()) {
+		    inf[1] = pic;
+		    inf[2] = Subject;
+		}
 	    } catch(e) {
 		
 	    }
@@ -165,7 +164,6 @@ function getInfo(Mode, Subject) {
     default:
 	break;
     }
-    console.log("inf is: " + inf);
     return inf;
 }
 
