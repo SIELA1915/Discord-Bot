@@ -116,6 +116,7 @@ function getInfo(Mode, Subject) {
 	    }
 	    break;
 	}
+	console.log(inf);
 	return inf;
     }
 }
