@@ -132,19 +132,30 @@ amee.on("ready", () => {
     console.log("Ready to begin! Serving in ${amee.channels.length} channels");
     amee.setStatus("online", "watching over Atys");
     loadCommands();
-    var request = require("request");
+/*    var request = require("request");
     request({ // be sure to have request installed
    method: "GET",
    uri: "http://i.imgur.com/pfmJgi8.jpg",
    encoding: null}, function(err, res, body) {
-   client.setAvatar(body);
+   amee.setAvatar(body);
+});*/
 });
+
+amee.on("serverNewMember", function(server, user) {
+    if (server.name == "Ryzom Karavan") {
+	amee.sendMessage(server.channels.get("name", "verification"), amee.user.username + " Aiye, my follower! Welcome to the Ryzom Karavan Discord Server! Please leave a mes\
+sage with @Administrators, telling your in-game name and which Guild you're in, so we can ensure that no spies have access to our server.");
+    } else if (server.name == "Rift Walkers") {
+	amee.sendMessage(server.channels.get("name", "verification"), "Welcome to the server of the Rift Walkers! Get to voice chat with our members or ask Amee for useful information. But first, you got to highlight HO's or GL and tell them your ingame name, so they can verify you're a member of us. Have fun!");
+    }
 });
 
 //when the bot receives a message
 amee.on("message", msg => {
-    if (msg.content.startsWith('<@'+amee.user.id+'>') || msg.content.startsWith('<@!'+amee.user.id+'>') || msg.content.startsWith(PREFIX)) {
-        checkCommand(msg);
+    if (msg.channel.name != "verify") {
+	if (msg.content.startsWith('<@'+amee.user.id+'>') || msg.content.startsWith('<@!'+amee.user.id+'>') || msg.content.startsWith(PREFIX)) {
+            checkCommand(msg);
+	}
     }
 });
 
