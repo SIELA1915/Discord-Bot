@@ -132,6 +132,13 @@ amee.on("ready", () => {
     console.log("Ready to begin! Serving in ${amee.channels.length} channels");
     amee.setStatus("online", "watching over Atys");
     loadCommands();
+    var request = require("request");
+    request({ // be sure to have request installed
+   method: "GET",
+   uri: "http://i.imgur.com/pfmJgi8.jpg",
+   encoding: null}, function(err, res, body) {
+   client.setAvatar(body);
+});
 });
 
 //when the bot receives a message
