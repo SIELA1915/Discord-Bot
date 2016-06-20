@@ -21,7 +21,7 @@ function getBosses() {
 	return ["Couldn't find any possibly spawned boss."];
     } else {
 	//Return all available boss
-	var Bosses = ["```diff\n+ These bosses might be spawned: "];
+	var sBosses = ["```diff\n+ These bosses might be spawned: "];
 	var ind = 0;
 	var Spawned = 0;
 	var nind = 0;
@@ -29,19 +29,17 @@ function getBosses() {
 	var nBosses = ["```diff\n- These bosses are not spawned: "];
 	for (var BOSS in Bosses) {
 	    var fBoss = Bosses[BOSS];
-	    console.log(BOSS);
 	    if (sBoss.includes(" " + BOSS)) {
 		if (Spawned == 0) {
-		    Bosses[ind] += fBoss.name;
+		    sBosses[ind] += fBoss.name;
 		} else {
 		    var add = ", " + fBoss.name;
-		    console.log(add);
-		    if (Bosses[ind].length + add.length + 3 > 2000) {
-			Bosses[ind] += "```";
+		    if (sBosses[ind].length + add.length + 3 > 2000) {
+			sBosses[ind] += "```";
 			++ind;
-			Bosses[ind] = "```diff\n";
+			sBosses[ind] = "```diff\n";
 		    }
-		    Bosses[ind] += add;
+		    sBosses[ind] += add;
 		}
 		++Spawned;
 	    } else {
@@ -59,9 +57,9 @@ function getBosses() {
 		++nSpawned;
 	    }
 	}
-	Bosses[ind] += "```";
+	sBosses[ind] += "```";
 	nBosses[nind] += "```";
-	return Bosses.concat(nBosses);
+	return sBosses.concat(nBosses);
     }
 }
 
