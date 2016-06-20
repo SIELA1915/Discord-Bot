@@ -164,6 +164,7 @@ function getInfo(Mode, Subject) {
     default:
 	break;
     }
+    if (inf[2] != null && !inf[2].endsWith(".png")) inf[2] += ".png";
     return inf;
 }
 
