@@ -34,6 +34,7 @@ function getBosses() {
 		    Bosses[ind] += fBoss.name;
 		} else {
 		    var add = ", " + fBoss.name;
+		    console.log(add);
 		    if (Bosses[ind].length + add.length + 3 > 2000) {
 			Bosses[ind] += "```";
 			++ind;
