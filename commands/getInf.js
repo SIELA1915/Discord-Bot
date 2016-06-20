@@ -2,6 +2,7 @@ var fs = require("fs");
 
 function getInfo(Mode, Subject) {
     console.log(Mode + " " + Subject);
+    var inf = [];
     switch (Mode) {
     case "B":
 	var Bosses = require("../ressources/bosses/Bosses.json");
@@ -39,7 +40,6 @@ function getInfo(Mode, Subject) {
 	}
 	break;
     case "L":
-	var inf = [];
 	switch(Subject){
 	case "Verdant Heights":
 	case "Matis":
@@ -116,7 +116,7 @@ function getInfo(Mode, Subject) {
 	    }
 	    break;
 	}
-	console.log(inf);
+	console.log("inf is: " + inf);
 	return inf;
     }
 }
