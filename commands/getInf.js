@@ -19,13 +19,8 @@ function getInfo(Mode, Subject) {
 	    }
 	}
 
-	if (!found) {
-	    console.log("Couldn't find Boss called: " + Subject);
-	    return "Couldn't find Boss called: " + Subject;
-	} else {
 	    //Spawn map name and additional info if available
 	    var fBoss = Bosses[sBoss];
-	    var inf = [];
 	    if (fBoss.info != null) {
 		inf[0] = fBoss.info;
 	    }
@@ -36,8 +31,6 @@ function getInfo(Mode, Subject) {
 	    }
 
 	    console.log("Info for " + fBoss.name + " is stored in file: " + inf[1]);
-	    return inf;
-	}
 	break;
     case "L":
 	switch(Subject){
@@ -115,10 +108,15 @@ function getInfo(Mode, Subject) {
 		inf[2] = Subject;
 	    }
 	    break;
+	default:
+	    break;
 	}
-	console.log("inf is: " + inf);
-	return inf;
+	break;
+    default:
+	break;
     }
+    console.log("inf is: " + inf);
+    return inf;
 }
 
 var geti = {};
