@@ -1,6 +1,7 @@
 var fs = require("fs");
 
 function getInfo(Mode, Subject) {
+    console.log(Mode + " " + Subject);
     switch (Mode) {
     case "B":
 	var Bosses = require("../ressources/bosses/Bosses.json");
