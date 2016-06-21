@@ -18,5 +18,5 @@ exports.main = function() {
 	}
     }
     //Write updated database to file
-    fs.writeFileSync("Wars.json", JSON.stringify(Wars), "utf8");
+    fs.writeFileSync("../ressources/outposts/Wars.json", JSON.stringify(Wars), "utf8");
 };
