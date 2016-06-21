@@ -10,7 +10,7 @@ exports.main = (user, guild) => {
 		parser.parseString(body, function (err, result) {
 		    cDB[user[u]] = result;
 		    console.log('Done: ' + user[u]);
-		})
+		});
 	    });
 	}
 	fs.writeFileSync(__dirname + "/../ressources/ryzomapi/Characters.json", JSON.stringify(cDB), "utf8");

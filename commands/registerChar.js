@@ -9,7 +9,7 @@ reg.main = (bot, msg) => {
     if (msg.channel.server.name == "Ryzom Karavan") {
 	bot.sendMessage(msg.channel, "This functionality isn't available.");
     } else {
-	var glo = require("../globalFuncs.js");
+	var glo = require("../globalFuncs.js")();
 	var help = "You best use this command in PM with Amee, so others don't get you API-Key. Use: ```xl\n/amee registerChar IG-Name API-Key     'registers the author for IG-Name and API-Key'\n```";
         var aArg = msg.content.split(' ');
 	if (aArg.length >= 4) {
