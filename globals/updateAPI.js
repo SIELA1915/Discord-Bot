@@ -1,7 +1,7 @@
 var fs = require("fs");
-var request = require("request");
 
 exports.main = (user, guild) => {
+    var request = require("request");
     if (user != null) {
 	var cDB = require("../ressources/ryzomapi/Characters.json");
 	var cKeys = require("../ressources/ryzomapi/Char_Keys.json");
