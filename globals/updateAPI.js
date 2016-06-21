@@ -1,4 +1,5 @@
 var fs = require("fs");
+var request = require("request");
 
 exports.main = (user, guild) => {
     if (user != null) {
