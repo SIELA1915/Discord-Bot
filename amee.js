@@ -127,6 +127,30 @@ var checkCommand = function(msg) {
     }
 }
 
+var checkNewCommands = (msg) => {
+    for (var c in commands) {
+	if (commands[c].tagged == undefined) continue;
+	var tags = commands[c].tags;
+	var isC = true;
+	for (var t in tags) {
+	    if (!msg.content.includes(tags[t])) {
+		isC = false;
+		break;
+	    }
+	}
+	if (!isC) continue;
+	var oMentions = commands[c].obl;
+	for (var m in oMentions) {
+	    if (!msg.content.includes(oMentions[m])) {
+		isC = false;
+		break;
+	    }
+	}
+	if (!isC) continue;
+	commands[c].tagged(amee, msg);
+    }
+}
+
 //when bot is ready load commands
 amee.on("ready", () => {
     console.log("Ready to begin! Serving in ${amee.channels.length} channels");
@@ -155,6 +179,8 @@ amee.on("message", msg => {
     if (msg.channel.name != "verify") {
 	if (msg.content.startsWith('<@'+amee.user.id+'>') || msg.content.startsWith('<@!'+amee.user.id+'>') || msg.content.startsWith(PREFIX)) {
             checkCommand(msg);
+	} else {
+	    checkNewCommands(msg);
 	}
     }
 });

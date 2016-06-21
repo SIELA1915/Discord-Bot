@@ -13,7 +13,7 @@ exports.main = (user, guild) => {
 //		console.log("---------------Error--------------" + err);
 //		console.log("---------------Body---------------" + body);
 //		console.log("---------------Http---------------" + httpResponse);
-		parser.parseString(body, function (err, result) {
+		parser.parseString(body, {explicitArray:false}, function (err, result) {
 		    console.log(err);
 		    cDB[user[u]] = result;
 		    fs.writeFileSync(__dirname + "/../ressources/ryzomapi/Characters.json", JSON.stringify(cDB), "utf8");
