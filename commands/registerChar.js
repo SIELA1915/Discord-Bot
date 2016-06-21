@@ -10,11 +10,11 @@ reg.main = (bot, msg) => {
 	bot.sendMessage(msg.channel, "This functionality isn't available.");
     } else {
 	var glo = require("../globalFuncs.js");
-	var cKeys = require("../ressources/ryzomapi/Char_Keys.json");
-	var mChars = require("../ressources/ryzomapi/Char_Map.json");
 	var help = "You best use this command in PM with Amee, so others don't get you API-Key. Use: ```xl\n/amee registerChar IG-Name API-Key     'registers the author for IG-Name and API-Key'\n```";
         var aArg = msg.content.split(' ');
 	if (aArg.length >= 4) {
+	var cKeys = require("../ressources/ryzomapi/Char_Keys.json");
+	var mChars = require("../ressources/ryzomapi/Char_Map.json");
 	    var dChar = msg.author.username;
 	    var rChar = aArg[2];
 	    var cKey = aArg[3];
