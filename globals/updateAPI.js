@@ -13,7 +13,7 @@ exports.main = (user, guild) => {
 		})
 	    });
 	}
-	fs.writeFileSync("../ressources/ryzomapi/Characters.json", JSON.stringify(cDB), "utf8");
+	fs.writeFileSync(__dirname + "/../ressources/ryzomapi/Characters.json", JSON.stringify(cDB), "utf8");
     }
     if (guild) {
 	var gDB = require("../ressources/ryzomapi/Guilds.json");
@@ -27,6 +27,6 @@ exports.main = (user, guild) => {
 		});
 	    });
 	}
-	fs.writeFileSync("../ressources/ryzomapi/Guilds.json", JSON.stringify(gDB), "utf8");
+	fs.writeFileSync(__dirname + "/../ressources/ryzomapi/Guilds.json", JSON.stringify(gDB), "utf8");
     }
 }
