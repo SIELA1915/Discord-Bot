@@ -47,7 +47,6 @@ coffee.tagged = (bot, msg) => {
 	ordArgs[0] = aArg[0];
 	ordArgs[1] = aArg[1];
     }
-    bot.sendMessage(msg.channel, bot.user.username + " aiye, " + ordArgs[0] + mMid + ordArgs[1] + mEnd;);
-    }
+    bot.sendMessage(msg.channel, bot.user.username + " aiye, " + ordArgs[0] + mMid + ordArgs[1] + mEnd);
 }
 module.exports = coffee;

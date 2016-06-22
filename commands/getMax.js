@@ -3,7 +3,7 @@ var fs = require("fs");
 function getMax(User, Object) {
     var inf = [];
     var c = require("../ressources/ryzomapi/Characters.json");
-    var cChar = c[User]["ryzomapi"]["character"];
+    var cChar = c[User]["ryzomapi"]["character"][0];
     var highest = 0;
     var characs = cChar["characteristics"];
     var skills = cChar["skills"];
@@ -74,15 +74,14 @@ getm.main = (bot, msg) => {
         var aArg = msg.content.split(' ');
 	if (aArg.length >= 3) {
 	    var glo = require("../globalFuncs.js")();
-	    glo.updateAPI();
 	    var rChar = require("../ressources/ryzomapi/Char_Map.json")[msg.author.id];
+	    glo.updateAPI(rChar, false);
 	    var obj = aArg.slice(2).join(" ");
-		var q = getMax(rChar, obj);
-		if (q[0] != null) {
-		    bot.sendMessage(msg.channel, "You can wear " + obj + " of quality: " + info[0]);
-		} else {
-		    bot.sendMessage(msg.channel, "Object " + obj + " wasn't found");
-		}
+	    var q = getMax(rChar, obj);
+	    if (q[0] != null) {
+		bot.sendMessage(msg.channel, "You can wear " + obj + " of quality: " + info[0]);
+	    } else {
+		bot.sendMessage(msg.channel, "Object " + obj + " wasn't found");
 	    }
 	} else {
 	    bot.sendMessage(msg.channel, "Not enough Arguments. " + help);
