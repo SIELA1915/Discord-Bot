@@ -2,8 +2,8 @@ var fs = require("fs");
 
 var reg = {};
 
-reg.args = "";
-reg.help = "Shows you all upcoming op wars. Annoucnements in English, French and German."
+reg.args = "<IG-Name> <API-Key>";
+reg.help = "Connects your Discord id with your in-game name and API-Key"
 reg.notservers = ["Ryzom Karavan"];
 reg.main = (bot, msg) => {
     if (msg.channel.server.name == "Ryzom Karavan") {
@@ -18,7 +18,7 @@ reg.main = (bot, msg) => {
 	    var dChar = msg.author.id;
 	    var rChar = aArg[2];
 	    var cKey = aArg[3];
-	    if (mChars[dChar] != undefined) {
+	    if (mChars[dChar] != undefined && mChars[dChar] != rChar) {
 		bot.sendMessage(msg.channel, "Attention! You're changing your in-game name. Is this really what you want to do?");
 		var c = require("../ressources/ryzomapi/Characters.json");
 		c[mChars[dChar]] = undefined;
