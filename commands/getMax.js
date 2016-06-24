@@ -79,7 +79,6 @@ getm.main = (bot, msg) => {
 	if (aArg.length >= 3) {
 	    var glo = require("../globalFuncs.js")();
 	    var rChar = require("../ressources/ryzomapi/Char_Map.json")[msg.author.id];
-	    glo.updateAPI([rChar], false);
 	    var obj = aArg.slice(2).join(" ");
 	    var q = getMax(rChar, obj);
 	    if (q[0] != null) {
@@ -87,6 +86,7 @@ getm.main = (bot, msg) => {
 	    } else {
 		bot.sendMessage(msg.channel, "Object " + obj + " wasn't found");
 	    }
+	    glo.updateAPI([rChar], false);
 	} else {
 	    bot.sendMessage(msg.channel, "Not enough Arguments. " + help);
 	}

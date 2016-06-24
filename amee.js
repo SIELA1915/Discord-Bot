@@ -181,13 +181,21 @@ sage with @Administrators, telling your in-game name and which Guild you're in, 
 
 //when the bot receives a message
 amee.on("message", msg => {
-    if (msg.channel.name != "verify" && msg.author != amee.user) {
+    if (msg.channel.id != "178552737993195530" && msg.channel.id != "176018284364169216" && msg.author != amee.user) {
 	if (msg.content.startsWith('<@'+amee.user.id+'>') || msg.content.startsWith('<@!'+amee.user.id+'>') || msg.content.startsWith(PREFIX)) {
             checkCommand(msg);
 	} else {
 	    checkNewCommands(msg);
 	}
     }
+});
+
+amee.on("presence", function(oldUser, newUser) {
+    if (oldUser.status == "offline" && newUser.status == "online" && amee.servers.get("name", "Rift Walkers").members.has("id", newUser.id)) {
+      	    var glo = require("./globalFuncs.js")();
+	    var rChar = require("./ressources/ryzomapi/Char_Map.json")[newUser.id];
+	    glo.updateAPI([rChar], false);
+  };
 });
 
 // when things break
