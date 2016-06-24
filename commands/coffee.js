@@ -18,35 +18,30 @@ coffee.main = (bot, msg) => {
 	}
 }
 coffee.tags = ["give", "coffee"];
-coffee.mentions = ["to @", "from @"];
+coffee.mentions = ["to <@", "from <@"];
 coffee.obl = [];
 coffee.tagged = (bot, msg) => {
     var mMid = "! Here you have some coffee as a gift from ";
     var mEnd = "!\n   ( (\n    ) )\n  ..............\n  |           |]\n  \\         /\n    `----'";
     var aArg = msg.mentions;
-    for (var a in aArg) {
-	if (aArg[a].id == bot.id) {
-	    aArg.splice(a, 1);
-	    break;
+
+    var finArgs = [];
+    var ordArgs = {};
+    var cont = msg.contents;
+    for (var m in mentions) {
+	if (cont.indexOf(coffee.mentions[m]) == -1) {
+	    ordArgs[String(2000+m)] = m;
+	    aArg.append(bot.user);
+	} else {
+	    ordArgs[String(cont.indexOf(coffee.mentions[m]))] = m;
 	}
     }
-    var ordArgs = [];
-    if (msg.content.indexOf(coffee.mentions[0]) < 0 && msg.content.indexOf(coffe.mentions[1]) < 0) {
-	ordArgs[0] = bot.user;
-	ordArgs[1] = bot.user;
-    } else if (msg.content.indexOf(coffee.mentions[0] < 0)) {
-	ordArgs[0] = bot.user;
-	ordArgs[1] = aArg[0];
-    } else if (msg.content.indexOf(coffee.mentions[1] < 0)) {
-	ordArgs[0] = aArg[0];
-	ordArgs[1] = msg.author;
-    } else if (msg.content.indexOf(coffee.mentions[0]) > msg.content.indexOf(coffee.mentions[1])) {
-	ordArgs[0] = aArg[1];
-	ordArgs[1] = aArg[0];
-    } else {
-	ordArgs[0] = aArg[0];
-	ordArgs[1] = aArg[1];
+    var i = 0;
+    for (var o in ordArgs) {
+	finArgs[ordArgs[o]] = aArg[i];
+	++i;
     }
-    bot.sendMessage(msg.channel, bot.user.username + " aiye, " + ordArgs[0] + mMid + ordArgs[1] + mEnd);
+    
+    bot.sendMessage(msg.channel, bot.user.username + " aiye, " + finArgs[0] + mMid + finArgs[1] + mEnd);
 }
 module.exports = coffee;

@@ -22,7 +22,7 @@ commands.help.main = function(bot, msg) {
     var fin = "";
     for (let command in commands) {
         // console.log(command);
-        if (!commands[command].hide /*&& (commands[command].notservers.indexOf(msg.channel.server.name) < 0)*/) {
+        if (!commands[command].hide && (commands[command].notservers.indexOf(msg.channel.server.name) > 0)) {
             fin += (command+" "+commands[command].args).padRight(50, ' ') +commands[command].help + "\n";
         }
     }
@@ -128,13 +128,19 @@ var checkCommand = function(msg) {
 }
 
 var checkNewCommands = (msg) => {
+    msg.contents = msg.contents.toLowerCase();
     for (var c in commands) {
-	if (commands[c].tagged == undefined) continue;
+	if (commands[c].tagged === undefined) continue;
+	if (msg.contents.includes(" me "))
+	    msg.contents.replace(" me ", " <@" + msg.author.id + "> ");
+	if (msg.contents.includes(" i "))
+	    msg.contents.replace(" i ", " <@" + msg.author.id + "> ");
 	var tags = commands[c].tags;
 	var isC = true;
 	for (var t in tags) {
 	    if (!msg.content.includes(tags[t])) {
 		isC = false;
+		console.log("missing " + tags[t]);
 		break;
 	    }
 	}
@@ -143,6 +149,7 @@ var checkNewCommands = (msg) => {
 	for (var m in oMentions) {
 	    if (!msg.content.includes(oMentions[m])) {
 		isC = false;
+		console.log("missing " + oMentions[m]);
 		break;
 	    }
 	}
