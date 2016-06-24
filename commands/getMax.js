@@ -8,8 +8,13 @@ function getMax(User, Object) {
     var characs = cChar["characteristics"];
     var skills = cChar["skills"];
     for (var s in skills) {
-	if (skills[s] > highest) highest = skills[s];
+	if (parseInt(skills[s]) > highest) highest = parseInt(skills[s]);
     }
+    var util = require('util');
+
+    console.log("highest is: " + highest);
+    console.log("characs are: " + util.inspect(characs, false, null));
+    console.log("skills are: " + util.inspect(skills, false, null));
     switch(Object){
     case "Light Armor":
     case "LA":
@@ -19,12 +24,12 @@ function getMax(User, Object) {
     case "Medium Armor":
     case "MA":
     case "Medium":
-	inf[0] = (highest+25)-(characs["constitution"]*1.5)>0?highest+25:characs["constitution"]*1.5;
-	    break;
+	inf[0] = (highest+25)-(parseInt(characs["constitution"])*1.5)>0?highest+25:parseInt(characs["constitution"])*1.5;
+	break;
     case "Heavy Armor":
     case "HA":
     case "Heavy":
-	inf[0] = (highest+25)-(characs["constitution"]+10)>0?highest+25:characs["constitution"]+10;
+	inf[0] = (highest+25)-(parseInt(characs["constitution"])+10)>0?highest+25:parseInt(characs["constitution"])+10;
 	    break;	
     case "Jewelry":
     case "Joolz":
@@ -37,23 +42,23 @@ function getMax(User, Object) {
     case "Melee":
     case "2H":
     case "1H":
-	inf[0] = characs["strength"]+10;
+	inf[0] = parseInt(characs["strength"])+10;
 	break;
     case "Range Weapons":
     case "Ranged Weapons":
     case "Range":
-	inf[0] = characs["balance"]+10;
+	inf[0] = parseInt(characs["balance"])+10;
 	break;
     case "Magic Amplifiers":
     case "Amps":
-	inf[0] = characs["intelligence"]+10;
+	inf[0] = parseInt(characs["intelligence"])+10;
 	break;
     case "Big Shield":
     case "Shield":
-	inf[0] = characs["constitution"]+10;
+	inf[0] = parseInt(characs["constitution"])+10;
     case "Small Shield":
     case "Buckler":
-	inf[0] = characs["constitution"]*1.5;
+	inf[0] = parseInt(characs["constitution"])*1.5;
     default:
 	break;
     }

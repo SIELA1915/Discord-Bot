@@ -28,7 +28,7 @@ function killedBoss(Boss, d) {
 	var sTime = cTime.toUTCString();
 	console.log("Updated Boss: " + Boss + " to last killed: " + sTime);
 	Bosses[sBoss].time = cTime.getTime();
-	fs.writeFileSync("../ressources/bosses/Bosses.json", JSON.stringify(Bosses), "utf8");
+	fs.writeFileSync(__dirname + "/../ressources/bosses/Bosses.json", JSON.stringify(Bosses), "utf8");
 	return "Updated Boss: " + Boss + " to last killed: " + sTime;
     }
 }
@@ -44,7 +44,7 @@ kill.main = (bot, msg) => {
 	} else{
 	    var aArg = msg.content.split(' ');
 	    if (aArg.length > 4) {
-                Amee.sendMessage(message.channel, "Too many Arguments. Use either:```xl\n/killedboss <Boss>     'registers kill for Boss at current time'\n/killedboss <Boss> <iso-timestamp>     'registers kill for Boss at ISOTimeStamp'\nCurrent ISO Timestamp: " + new Date().toISOString() + "\n```");
+                bot.sendMessage(msg.channel, "Too many Arguments. Use either:```xl\n/killedboss <Boss>     'registers kill for Boss at current time'\n/killedboss <Boss> <iso-timestamp>     'registers kill for Boss at ISOTimeStamp'\nCurrent ISO Timestamp: " + new Date().toISOString() + "\n```");
 	    } else if (aArg.length == 4) {
 		bot.sendMessage(msg.channel, killedBoss(aArg[2], new Date(aArg[3])));
 	    } else if (aArg.length == 3) {
