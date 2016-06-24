@@ -27,8 +27,8 @@ coffee.tagged = (bot, msg) => {
 
     var finArgs = [];
     var ordArgs = {};
-    var cont = msg.contents;
-    for (var m in mentions) {
+    var cont = msg.content;
+    for (var m in coffee.mentions) {
 	if (cont.indexOf(coffee.mentions[m]) == -1) {
 	    ordArgs[String(2000+m)] = m;
 	    aArg.append(bot.user);

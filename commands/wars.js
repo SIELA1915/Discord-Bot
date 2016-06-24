@@ -1,3 +1,5 @@
+var fs = require("fs");
+
 //Create announcement for War in English
 function WarToEn(War) {
     var sWar = "[EN]\n";
@@ -125,7 +127,7 @@ wars.args = "";
 wars.help = "Shows you all upcoming op wars. Annoucnements in English, French and German."
 wars.notservers = [];
 wars.main = (bot, msg) => {
-    var glo = require("../globalFuncs.js");
+    var glo = require("../globalFuncs.js")();
     glo.updateWars();
     var Wars = require("../ressources/outposts/Wars.json");
     if (Wars.length == 0) {

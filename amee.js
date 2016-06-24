@@ -22,7 +22,7 @@ commands.help.main = function(bot, msg) {
     var fin = "";
     for (let command in commands) {
         // console.log(command);
-        if (!commands[command].hide && (commands[command].notservers.indexOf(msg.channel.server.name) > 0)) {
+        if (!commands[command].hide && (commands[command].notservers.indexOf(msg.channel.server.name) < 0)) {
             fin += (command+" "+commands[command].args).padRight(50, ' ') +commands[command].help + "\n";
         }
     }
@@ -128,19 +128,18 @@ var checkCommand = function(msg) {
 }
 
 var checkNewCommands = (msg) => {
-    msg.contents = msg.contents.toLowerCase();
+    msg.content = msg.content.toLowerCase();
     for (var c in commands) {
 	if (commands[c].tagged === undefined) continue;
-	if (msg.contents.includes(" me "))
-	    msg.contents.replace(" me ", " <@" + msg.author.id + "> ");
-	if (msg.contents.includes(" i "))
-	    msg.contents.replace(" i ", " <@" + msg.author.id + "> ");
+	if (msg.content.includes(" me "))
+	    msg.content.replace(" me ", " <@" + msg.author.id + "> ");
+	if (msg.content.includes(" i "))
+	    msg.content.replace(" i ", " <@" + msg.author.id + "> ");
 	var tags = commands[c].tags;
 	var isC = true;
 	for (var t in tags) {
 	    if (!msg.content.includes(tags[t])) {
 		isC = false;
-		console.log("missing " + tags[t]);
 		break;
 	    }
 	}
@@ -149,7 +148,6 @@ var checkNewCommands = (msg) => {
 	for (var m in oMentions) {
 	    if (!msg.content.includes(oMentions[m])) {
 		isC = false;
-		console.log("missing " + oMentions[m]);
 		break;
 	    }
 	}
@@ -177,13 +175,13 @@ amee.on("serverNewMember", function(server, user) {
 	amee.sendMessage(server.channels.get("name", "verification"), amee.user.username + " Aiye, my follower! Welcome to the Ryzom Karavan Discord Server! Please leave a mes\
 sage with @Administrators, telling your in-game name and which Guild you're in, so we can ensure that no spies have access to our server.");
     } else if (server.name == "Rift Walkers") {
-	amee.sendMessage(server.channels.get("name", "verification"), "Welcome to the server of the Rift Walkers! Get to voice chat with our members or ask Amee for useful information. But first, you got to highlight HO's or GL and tell them your ingame name, so they can verify you're a member of us. Have fun!");
+	amee.sendMessage(server.channels.get("name", "verify"), "Welcome to the server of the Rift Walkers! Get to voice chat with our members or ask Amee for useful information. But first, you got to highlight HO's or GL and tell them your ingame name, so they can verify you're a member of us. Have fun!");
     }
 });
 
 //when the bot receives a message
 amee.on("message", msg => {
-    if (msg.channel.name != "verify") {
+    if (msg.channel.name != "verify" && msg.author != amee.user) {
 	if (msg.content.startsWith('<@'+amee.user.id+'>') || msg.content.startsWith('<@!'+amee.user.id+'>') || msg.content.startsWith(PREFIX)) {
             checkCommand(msg);
 	} else {
