@@ -53,7 +53,7 @@ xls.args = "<gmt-offset>";
 xls.help = "Generates an xls spreadsheet with all the boss infos. Uses gmt-offset (plain number) for respawn time calculation."
 xls.notservers = ["Ryzom Karavan"];
 xls.main = (bot, msg) => {
-    if (msg.channel.server.name == "Ryzom Karavan") {
+    if (msg.channel.isPrivate || msg.channel.server.id == "175308871122812929") {
 	bot.sendMessage(msg.channel, "This functionality isn't available.");
     } else{
 	var aArg = msg.content.split(" ");

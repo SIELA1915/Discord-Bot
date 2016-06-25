@@ -39,7 +39,7 @@ kill.args = "<boss> <iso-timestamp>";
 kill.help = "Registers a kill for specified boss. If no iso-timestamp is specified, registers for current time.";
 kill.notservers = ["Ryzom Karavan"];
 kill.main = (bot, msg) => {
-    	if (msg.channel.server.name == "Ryzom Karavan") {
+    	if (msg.channel.isPrivate || msg.channel.server.id == "175308871122812929") {
 	    bot.sendMessage(msg.channel, "This functionality isn't available.");
 	} else{
 	    var aArg = msg.content.split(' ');

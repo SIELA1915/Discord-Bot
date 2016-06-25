@@ -69,7 +69,7 @@ getm.args = "<object>";
 getm.help = "Gives you the highest quality you can wear of specified item.";
 getm.notservers = ["Ryzom Karavan"];
 getm.main = (bot, msg) => {
-    if (msg.channel.server.name == "Ryzom Karavan") {
+    if (msg.channel.isPrivate || msg.channel.server.id == "175308871122812929") {
 	bot.sendMessage(msg.channel, "This functionality isn't available.");
     } else {
 	var help = "Please specify an object to get the highest quality for.";

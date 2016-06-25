@@ -6,7 +6,7 @@ reg.args = "<IG-Name> <API-Key>";
 reg.help = "Connects your Discord id with your in-game name and API-Key"
 reg.notservers = ["Ryzom Karavan"];
 reg.main = (bot, msg) => {
-    if (msg.channel.server.name == "Ryzom Karavan") {
+    if (msg.channel.isPrivate || msg.channel.server.id == "175308871122812929") {
 	bot.sendMessage(msg.channel, "This functionality isn't available.");
     } else {
 	var glo = require("../globalFuncs.js")();

@@ -174,7 +174,7 @@ geti.args = "<mode> <name>";
 geti.help = "Modes are: \nB - get Info about a Boss and its spawn locations.\nL - get Info about a Region and spawn locations for Bosses in it";
 geti.notservers = ["Ryzom Karavan"];
 geti.main = (bot, msg) => {
-    if (msg.channel.server.name == "Ryzom Karavan") {
+    if (msg.channel.isPrivate || msg.channel.server.id == "175308871122812929") {
 	bot.sendMessage(msg.channel, "This functionality isn't available.");
     } else {
 	var help = "Use: ```xl\n/amee getInf B Boss     'gives info and map of spawns for Boss'\n/amee getInf L Land     'gives info and map of spawns for region'\n```";

@@ -41,7 +41,7 @@ get.args = "<name>"
 get.help = "Returns last time specified boss was killed and earliest time the boss might be respawned."
 get.notservers = ["Ryzom Karavan"];
 get.main = (bot, msg) => {
-        if (msg.channel.server.name == "Ryzom Karavan") {
+        if (msg.channel.isPrivate || msg.channel.server.id == "175308871122812929") {
 	    bot.sendMessage(msg.channel, "This functionality isn't available.");
 	} else {
             var aArg = msg.content.split(' ');
