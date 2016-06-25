@@ -10,7 +10,7 @@ upm.main = (bot, msg) => {
 	    var glo = require("../globalFuncs.js")();
 	    var rChar = require("../ressources/ryzomapi/Char_Map.json")[msg.author.id];
 	    glo.updateAPI([rChar], false);
-	    bot.sendMessage(msg.channel, "Updated API for " + rChar + ". " + help);
+	    bot.sendMessage(msg.channel, "Updated API for " + rChar + ".");
     }
 }
 module.exports = upm;

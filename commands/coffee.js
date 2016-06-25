@@ -31,7 +31,7 @@ coffee.tagged = (bot, msg) => {
     for (var m in coffee.mentions) {
 	if (cont.indexOf(coffee.mentions[m]) == -1) {
 	    ordArgs[String(2000+m)] = m;
-	    aArg.append(bot.user);
+	    aArg.push(bot.user);
 	} else {
 	    ordArgs[String(cont.indexOf(coffee.mentions[m]))] = m;
 	}

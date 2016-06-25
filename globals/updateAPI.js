@@ -17,15 +17,15 @@ exports.main = (user, guild) => {
 		parser.parseString(body, function (err, result) {
 		    console.log(err);
 		    cDB[user[u]] = result;
+		    fs.writeFileSync(__dirname + "/../ressources/ryzomapi/Characters.json", JSON.stringify(cDB), "utf8");
 		    d = true;
 		});
 	    });
-	    while(d === undefined) {
+/*	    while(d === undefined) {
 		require('deasync').runLoopOnce();
 	    }
-	    console.log("done with " + u);
+*/	    console.log("done with " + u);
 	}
-	fs.writeFileSync(__dirname + "/../ressources/ryzomapi/Characters.json", JSON.stringify(cDB), "utf8");
     }
     if (guild) {
 	var gDB = require("../ressources/ryzomapi/Guilds.json");
@@ -37,13 +37,13 @@ exports.main = (user, guild) => {
 		parser.parseString(body, function(err, result) {
 		    gDB[g] = result;
 		    console.log('Done: ' + g);
+		    fs.writeFileSync(__dirname + "/../ressources/ryzomapi/Guilds.json", JSON.stringify(gDB), "utf8");
 		    d = true;
 		});
 	    });
-	    while(d === undefined) {
+/*	    while(d === undefined) {
 		require('deasync').runLoopOnce();
 	    }
-	}
-	fs.writeFileSync(__dirname + "/../ressources/ryzomapi/Guilds.json", JSON.stringify(gDB), "utf8");
+*/	}
     }
 }

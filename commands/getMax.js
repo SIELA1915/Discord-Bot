@@ -10,11 +10,7 @@ function getMax(User, Object) {
     for (var s in skills) {
 	if (parseInt(skills[s]) > highest) highest = parseInt(skills[s]);
     }
-    var util = require('util');
 
-    console.log("highest is: " + highest);
-    console.log("characs are: " + util.inspect(characs, false, null));
-    console.log("skills are: " + util.inspect(skills, false, null));
     switch(Object){
     case "Light Armor":
     case "LA":
@@ -24,12 +20,12 @@ function getMax(User, Object) {
     case "Medium Armor":
     case "MA":
     case "Medium":
-	inf[0] = (highest+25)-(parseInt(characs["constitution"])*1.5)>0?highest+25:parseInt(characs["constitution"])*1.5;
+	inf[0] = (highest+25)-(parseInt(characs["constitution"])*1.5)<0?highest+25:parseInt(characs["constitution"])*1.5;
 	break;
     case "Heavy Armor":
     case "HA":
     case "Heavy":
-	inf[0] = (highest+25)-(parseInt(characs["constitution"])+10)>0?highest+25:parseInt(characs["constitution"])+10;
+	inf[0] = (highest+25)-(parseInt(characs["constitution"])+10)<0?highest+25:parseInt(characs["constitution"])+10;
 	    break;	
     case "Jewelry":
     case "Joolz":
@@ -56,9 +52,11 @@ function getMax(User, Object) {
     case "Big Shield":
     case "Shield":
 	inf[0] = parseInt(characs["constitution"])+10;
+	break;
     case "Small Shield":
     case "Buckler":
-	inf[0] = parseInt(characs["constitution"])*1.5;
+	inf[0] = (highest+25)-(parseInt(characs["constitution"])*1.5)<0?highest+25:parseInt(characs["constitution"])*1.5;
+	break;
     default:
 	break;
     }
@@ -77,7 +75,6 @@ getm.main = (bot, msg) => {
 	var help = "Please specify an object to get the highest quality for.";
         var aArg = msg.content.split(' ');
 	if (aArg.length >= 3) {
-	    var glo = require("../globalFuncs.js")();
 	    var rChar = require("../ressources/ryzomapi/Char_Map.json")[msg.author.id];
 	    var obj = aArg.slice(2).join(" ");
 	    var q = getMax(rChar, obj);
@@ -86,6 +83,7 @@ getm.main = (bot, msg) => {
 	    } else {
 		bot.sendMessage(msg.channel, "Object " + obj + " wasn't found");
 	    }
+	    var glo = require("../globalFuncs.js")();
 	    glo.updateAPI([rChar], false);
 	} else {
 	    bot.sendMessage(msg.channel, "Not enough Arguments. " + help);

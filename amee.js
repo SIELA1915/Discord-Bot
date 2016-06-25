@@ -22,8 +22,8 @@ commands.help.main = function(bot, msg) {
     var fin = "";
     for (let command in commands) {
         // console.log(command);
-        if (!commands[command].hide && (commands[command].notservers.indexOf(msg.channel.server.name) < 0)) {
-            fin += (command+" "+commands[command].args).padRight(50, ' ') +commands[command].help + "\n";
+        if (!commands[command].hide && (msg.channel.isPrivate || commands[command].notservers.indexOf(msg.channel.server.name) < 0)) {
+            fin += (command+" "+commands[command].args) + "\n";
         }
     }
     bot.sendMessage(msg, "```\n"+fin+"\n```");
@@ -118,7 +118,9 @@ var checkCommand = function(msg) {
             //bot.sendMessage(msg, Array(16).join('wat' -1) + " Batman!");
             ping(msg);
         } else {
+	    amee.startTyping(msg.channel);
             commands[msg.content.split(' ')[1]].main(amee, msg);
+	    amee.stopTyping(msg.channel);
             //console.log(commands[msg.content.split(' ')[1]].help);
         }
     }
