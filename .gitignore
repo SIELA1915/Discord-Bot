@@ -2,3 +2,8 @@
 node_modules
 Bosses.xlsx
 node_latest_armhf.deb
+ressources/bosses/Bosses.json
+ressources/outposts/Wars.json
+ressources/ryzomapi/Characters.json
+ressources/ryzomapi/Char_Keys.json
+ressources/ryzomapi/Char_Map.json

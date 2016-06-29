@@ -43,7 +43,7 @@ function getMax(User, Object) {
     case "Range Weapons":
     case "Ranged Weapons":
     case "Range":
-	inf[0] = parseInt(characs["balance"])+10;
+	inf[0] = parseInt(characs["wellbalanced"])+10;
 	break;
     case "Magic Amplifiers":
     case "Amps":
