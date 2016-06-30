@@ -36,7 +36,7 @@ function NewWar(Prod, Q, Attacker, AttFaction, Help, Minute, Hour, Day, Month) {
 	var Wars = require("../ressources/outposts/Wars.json");
 	console.log("Added War: " + JSON.stringify(War, null, 2));
 	Wars[Wars.length] = War;
-	fs.writeFileSync("../ressources/outposts/Wars.json", JSON.stringify(Wars), "utf8");
+	fs.writeFileSync(__dirname + "/../ressources/outposts/Wars.json", JSON.stringify(Wars), "utf8");
 	return "Added War successfully";
     }
 }
@@ -47,8 +47,31 @@ newWar.args = "<Prod.> <Q> <G> <F> <Help> <M> <D> <H> <M>";
 newWar.help = "Register a new war in the system. The Help Argument is either 0 or 1, 0 meaning that it's a handover. The time and date arguments are always in GMT. No arguments for more information.";
 newWar.notservers = [];
 newWar.main = (bot, msg) => {
-	var aArg = msg.content.split(' ');
-    var glo = require("../globalFuncs.js")();
+    var aArg = msg.content.split(' ');
+    console.log(aArg);
+    var from = -1;
+    var to = -1;
+    for (var a in aArg) {
+	var v = aArg[a];
+	if (v.includes("\"")) {
+	    if (from == -1) {
+		from = a;
+	    } else if (to == -1) {
+		to = a;
+		break;
+	    }
+	}
+    }
+    ++to;
+    console.log(from);
+    console.log(to);
+    var att = aArg.splice(from, to-from).join(" ");
+    console.log(att);
+    att = att.replace(/\"/g, "");
+    aArg.splice(from, 0, att);
+    console.log(aArg);
+	
+	var glo = require("../globalFuncs.js")();
 	if (aArg.length != 11) {
 	    bot.sendMessage(msg.channel, "Wrong Format! Use: \n/amee newWar <Product of the Op> <Quality> <Attacker Guild> <Attacker Faction> <Help> <Month> <Day> <Hours> <Minutes>");
 	} else {
@@ -66,5 +89,5 @@ newWar.main = (bot, msg) => {
 	    var success = NewWar(Prod, Q, Attacker, AttFaction, Help, Minute, Hour, Day, Month);
 	    bot.sendMessage(msg.channel, success);
 	}
-}
+    }
 module.exports = newWar;

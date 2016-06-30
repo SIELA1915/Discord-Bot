@@ -24,7 +24,7 @@ function WarToEn(War) {
 	sup = "th";
     }
 
-    var Outposts = require("./Outposts.json");
+    var Outposts = require("../ressources/outposts/Outposts.json");
 
     // Composing War Announcement
     if (War.help == 0) sWar += "Handover!!\n";
@@ -58,7 +58,7 @@ function WarToFr(War) {
     var sWar = "[FR]\n";
     var month_en = new Array("janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre");
 
-    var Outposts = require("./Outposts.json");
+    var Outposts = require("../ressources/outposts/Outposts.json");
 
     // Composing War Announcement
     if (War.help == 0) sWar += "Transfert!!\n";
@@ -91,7 +91,7 @@ function WarToDe(War) {
     var sWar = "[DE]\n";
     var month_en = new Array("Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember");
 
-    var Outposts = require("./Outposts.json");
+    var Outposts = require("../ressources/outposts/Outposts.json");
 
     // Composing War Announcement
     if (War.help == 0) sWar += "Übergabe!!\n";
