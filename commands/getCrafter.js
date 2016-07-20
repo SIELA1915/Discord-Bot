@@ -7,7 +7,7 @@ function getCrafter(Quality, Object) {
     for (var cha in c) {
 	if (inf[0] == 0) break;
 	var cChar = c[cha]["ryzomapi"]["character"];
-	var skils = cChar["skills"];
+	var skills = cChar["skills"];
 	var armor = -1;
 	var shield = -1;
 	var jewels = -1;
@@ -39,7 +39,7 @@ function getCrafter(Quality, Object) {
 	    }
 	}
 	var cArmor = Math.floor(armor/10)*10+10;
-	var cShields = Math.floor(shields/10)*10+10;
+	var cShields = Math.floor(shield/10)*10+10;
 	var cJewels = Math.floor(jewels/10)*10+10;
 	var cMelee = Math.floor(melee/10)*10+10;
 	var cRange = Math.floor(range/10)*10+10;
