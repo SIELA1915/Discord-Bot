@@ -1,6 +1,5 @@
 function getBosses() {
     var Bosses = require("../ressources/bosses/Bosses.json");
-    var glo = require("../globalFuncs.js")();
    //Find corresponding Boss
     var sBoss = "";
     var found = 0;
@@ -8,7 +7,7 @@ function getBosses() {
 	var cBoss = Bosses[BOSS];
 	var bTime = new Date(cBoss.time);
 	bTime.setTime(bTime.getTime() + (48 * 60 * 60 * 1000));
-	var tillArr = glo.timeToGo(bTime);
+	var tillArr = timeToGo(bTime);
 	if (tillArr[3] < 0) {
 	    sBoss += " " + BOSS;
 	    console.log("Added " + BOSS + " to possible spawned bosses");

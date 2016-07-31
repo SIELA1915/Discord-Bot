@@ -83,8 +83,7 @@ getm.main = (bot, msg) => {
 	    } else {
 		bot.sendMessage(msg.channel, "Object " + obj + " wasn't found");
 	    }
-	    var glo = require("../globalFuncs.js")();
-	    glo.updateAPI([rChar], false);
+	    updateAPI([rChar], false);
 	} else {
 	    bot.sendMessage(msg.channel, "Not enough Arguments. " + help);
 	}

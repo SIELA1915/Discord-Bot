@@ -71,7 +71,6 @@ newWar.main = (bot, msg) => {
     aArg.splice(from, 0, att);
     console.log(aArg);
 	
-	var glo = require("../globalFuncs.js")();
 	if (aArg.length != 11) {
 	    bot.sendMessage(msg.channel, "Wrong Format! Use: \n/amee newWar <Product of the Op> <Quality> <Attacker Guild> <Attacker Faction> <Help> <Month> <Day> <Hours> <Minutes>");
 	} else {
@@ -85,7 +84,7 @@ newWar.main = (bot, msg) => {
 	    var Hour = aArg[9];
 	    var Minute = aArg[10];
 	    
-	    glo.updateWars();
+	    updateWars();
 	    var success = NewWar(Prod, Q, Attacker, AttFaction, Help, Minute, Hour, Day, Month);
 	    bot.sendMessage(msg.channel, success);
 	}

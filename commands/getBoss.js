@@ -1,6 +1,5 @@
 function getBoss(Boss) {
     var Bosses = require("../ressources/bosses/Bosses.json");
-    var glo = require("../globalFuncs.js")();
     //Find corresponding Boss
     var sBoss = 0;
     var found = 0;
@@ -22,7 +21,7 @@ function getBoss(Boss) {
 	var fBoss = Bosses[sBoss];
 	var bTime = new Date(fBoss.time);
 	bTime.setTime(bTime.getTime() + (48 * 60 * 60 * 1000));
-	var tillArr = glo.timeToGo(bTime);
+	var tillArr = timeToGo(bTime);
 	var next = "";
 	if (tillArr[3] < 0) {
 	    next = "This Boss might be available!";

@@ -44,42 +44,62 @@ function getCrafter(Quality, Object) {
 	var cMelee = Math.floor(melee/10)*10+10;
 	var cRange = Math.floor(range/10)*10+10;
 	
-	switch(Object){
-	case "Light Armor":
-	case "LA":
-	case "Light":
-	case "Medium Armor":
-	case "MA":
-	case "Medium":
-	case "Heavy Armor":
-	case "HA":
-	case "Heavy":
+	switch(Object.toLowerCase()){
+	case "light armor":
+	case "la":
+	case "light":
+	case "medium armor":
+	case "ma":
+	case "medium":
+	case "heavy armor":
+	case "ha":
+	case "heavy":
 	    if (cArmor >= Quality) inf.push(cChar["name"]);
 	    break;	
-	case "Big Shield":
-	case "Shield":
-	case "Small Shield":
-	case "Buckler":
+	case "big shield":
+	case "shield":
+	case "small shield":
+	case "buckler":
 	    if (cShields >= Quality) inf.push(cChar["name"]);
 	    break;
-	case "Jewelry":
-	case "Joolz":
-	case "Jools":
-	case "Jewels":
+	case "jewelry":
+	case "joolz":
+	case "jools":
+	case "jewels":
 	    if (cJewels >= Quality) inf.push(cChar["name"]);
 	    break;
-	case "Melee Weapons":
-	case "Tank":
-	case "Melee":
-	case "2H":
-	case "1H":
-	case "Magic Amplifiers":
-	case "Amps":
+	case "melee weapons":
+	case "tank":
+	case "melee":
+	case "2h":
+	case "1h":
+	case "long axe":
+	case "long mace":
+	case "long sword":
+	case "pike":
+	case "axe":
+	case "mace":
+	case "sword":
+	case "lance":
+	case "spear":
+	case "dagger":
+	case "staff":
+	case "magic amplifiers":
+	case "amps":
 	    if (cMelee >= Quality) inf.push(cChar["name"]);
 	    break;
-	case "Range Weapons":
-	case "Ranged Weapons":
-	case "Range":
+	case "range weapons":
+	case "ranged weapons":
+	case "range":
+	case "pistol":
+	case "revolver":
+	case "gun":
+	case "rifle":
+	case "bowpistol":
+	case "bowrifle":
+	case "al":
+	case "autolauncher":
+	case "launcher":
 	    if (cRange >= Quality) inf.push(cChar["name"]);
 	    break;
 	default:
@@ -104,7 +124,7 @@ getc.main = (bot, msg) => {
 	if (aArg.length >= 4) {
 //	    var rChar = require("../ressources/ryzomapi/Char_Map.json");
 	    var obj = aArg.slice(3).join(" ");
-	    var q = aArg[2];
+	    var q = aArg[2].replace(/\D/g, '');
 	    var crafters = getCrafter(q, obj);
 	    if (crafters.length > 1) {
 		bot.sendMessage(msg.channel, crafters.slice(1).join(", ") + " can craft q" + q + " " + obj + " for you.");
@@ -113,8 +133,7 @@ getc.main = (bot, msg) => {
 	    } else {
 		bot.sendMessage(msg.channel, "I do not know what " + obj + " is.");
 	    }
-	    var glo = require("../globalFuncs.js")();
-	    glo.updateAPI([rChar], false);
+	    updateAPI([rChar], false);
 	} else {
 	    bot.sendMessage(msg.channel, "Not enough Arguments. " + help);
 	}

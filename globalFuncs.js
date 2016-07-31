@@ -7,7 +7,8 @@ module.exports = () => {
     for (let file of files) {
         if (file.endsWith('.js')) {
 	    var funcToAdd = require(__dirname+'/globals/'+file);
-            exports[file.slice(0, -3)] = funcToAdd.main;
+	    global[file.slice(0, -3)] = funcToAdd.main;
+	    exports[file.slice(0, -3)] = funcToAdd.main;
         }
     }
     console.log("———— All Globals Loaded! ————");

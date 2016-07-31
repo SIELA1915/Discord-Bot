@@ -162,6 +162,7 @@ var checkNewCommands = (msg) => {
 amee.on("ready", () => {
     console.log("Ready to begin! Serving in ${amee.channels.length} channels");
     amee.setStatus("online", "watching over Atys");
+    var gl = require("./globalFuncs.js")();
     loadCommands();
 /*    var request = require("request");
     request({ // be sure to have request installed
