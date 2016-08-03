@@ -197,7 +197,7 @@ amee.on("presence", function(oldUser, newUser) {
     if (oldUser.status == "offline" && newUser.status == "online" && amee.servers.get("name", "Rift Walkers").members.has("id", newUser.id)) {
       	    var glo = require("./globalFuncs.js")();
 	    var rChar = require("./ressources/ryzomapi/Char_Map.json")[newUser.id];
-	    glo.updateAPI([rChar], false);
+	    glo.updateAPI([rChar], true);
   };
 });
 

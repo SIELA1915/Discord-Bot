@@ -1,6 +1,6 @@
 var fs = require("fs");
 
-function killedBoss(Boss, d) {
+function killedBoss(Boss, d, bot, msg) {
     var Bosses = require("../ressources/bosses/Bosses.json");
     var cTime = d===0?new Date():d;
     //Find corresponding Boss
@@ -29,6 +29,13 @@ function killedBoss(Boss, d) {
 	console.log("Updated Boss: " + Boss + " to last killed: " + sTime);
 	Bosses[sBoss].time = cTime.getTime();
 	fs.writeFileSync(__dirname + "/../ressources/bosses/Bosses.json", JSON.stringify(Bosses), "utf8");
+	var timer = function timer(B) {
+	    bot.sendMessage(msg.channel, B + " might first respawn in 5 minutes!");
+	}
+	var rTime = new Date(cTime);
+	rTime.setTime(rTime.getTime() + (48 * 60 * 60 * 1000) - (5 * 60 * 1000));
+	var tarr = timeToGo(rTime);
+	var to = setTimeout(timer, (tarr[0] * 60 * 60 * 1000) + (tarr[1] * 60 * 1000) + (tarr[2] * 1000), Boss);
 	return "Updated Boss: " + Boss + " to last killed: " + sTime;
     }
 }
@@ -46,9 +53,9 @@ kill.main = (bot, msg) => {
 	    if (aArg.length > 4) {
                 bot.sendMessage(msg.channel, "Too many Arguments. Use either:```xl\n/killedboss <Boss>     'registers kill for Boss at current time'\n/killedboss <Boss> <iso-timestamp>     'registers kill for Boss at ISOTimeStamp'\nCurrent ISO Timestamp: " + new Date().toISOString() + "\n```");
 	    } else if (aArg.length == 4) {
-		bot.sendMessage(msg.channel, killedBoss(aArg[2], new Date(aArg[3])));
+		bot.sendMessage(msg.channel, killedBoss(aArg[2], new Date(aArg[3]), bot, msg));
 	    } else if (aArg.length == 3) {
-		bot.sendMessage(msg.channel, killedBoss(aArg[2], 0));
+		bot.sendMessage(msg.channel, killedBoss(aArg[2], 0, bot, msg));
 	    } else {
 		bot.sendMessage(msg.channel, "Too many Arguments. Use either:```xl\n/killedboss <Boss>     'registers kill for Boss at current time'\n/killedboss <Boss> <iso-timestamp>     'registers kill for Boss at ISOTimeStamp'\nCurrent ISO Timestamp: " + new Date().toISOString() + "\n```");
 	    }
