@@ -1,5 +1,8 @@
 function getBosses() {
     var Bosses = require("../ressources/bosses/Bosses.json");
+    Bosses.sort((a,b) => {
+	    return a.time < b.time;
+	});
    //Find corresponding Boss
     var sBoss = "";
     var found = 0;
