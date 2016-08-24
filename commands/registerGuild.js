@@ -25,7 +25,7 @@ reg.main = (bot, msg) => {
 	    }
 	    gKeys[rGuild] = gKey;
 	    fs.writeFileSync(__dirname + "/../ressources/ryzomapi/Guild_Keys.json", JSON.stringify(gKeys), "utf8");
-	    updateAPI([], true);
+	    updateAPI(null, true);
 	    bot.sendMessage(msg.channel, "Registered");
 	} else {
 	    bot.sendMessage(msg.channel, "Not enough Arguments. " + help);

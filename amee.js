@@ -195,10 +195,10 @@ amee.on("message", msg => {
 
 amee.on("presence", function(oldUser, newUser) {
     if (oldUser.status == "offline" && newUser.status == "online" && amee.servers.get("name", "Rift Walkers").members.has("id", newUser.id)) {
-      	    var glo = require("./globalFuncs.js")();
 	    var rChar = require("./ressources/ryzomapi/Char_Map.json")[newUser.id];
-	    glo.updateAPI([rChar], true);
-  };
+	    updateAPI([rChar], false);
+	updateAPI(null, true);
+    };
 });
 
 // when things break
@@ -213,6 +213,8 @@ amee.on("disconnected", () => {
 	//alert the console
 	console.log("Disconnected!");
 
+    amee.logout();
+    
 	//exit node.js with an error
 	process.exit(1);
 });
