@@ -4,9 +4,16 @@ function getLvl(User, Branch) {
     var inf = [1];
     var c = require("../ressources/ryzomapi/Characters.json")[User];
     var skills = c["skills"];
+
+    var pSkills = {"mace1":1, "staff":1, "spear":1, "axe1":1, "sword1":1, "mace2":1, "pike":1, "axe2":1, "sword2":1, "dagger":1, "h2h":1, "pistol":1, "autolauncher":1, "launcher":1, "rifle":1
+		   "da":1, "heal":1, "oa":1, "ele":1
+		   
+    
+    if (parseInt(skills[sf]) < 50) {
 	
-    switch(Object.toLowerCase()){
-    case "craft":
+    }
+    
+    switch(Branch.toLowerCase()){
     case "la":
 	case "light":
 	case "medium armor":

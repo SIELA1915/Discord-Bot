@@ -1,19 +1,24 @@
 function getBosses() {
     var Bosses = require("../ressources/bosses/Bosses.json");
-    Bosses.sort((a,b) => {
-	    return a.time < b.time;
-	});
-   //Find corresponding Boss
+/*    Bosses.sort((a,b) => {
+	if (a.time < b.time)
+	    return 1;
+	else if (a.time > b.time)
+	    return -1;
+	else
+	    return 0;
+    });*/
+    //Find corresponding Boss
     var sBoss = "";
     var found = 0;
     for (var BOSS in Bosses) {
 	var cBoss = Bosses[BOSS];
+	console.log(cBoss.time);
 	var bTime = new Date(cBoss.time);
 	bTime.setTime(bTime.getTime() + (48 * 60 * 60 * 1000));
 	var tillArr = timeToGo(bTime);
 	if (tillArr[3] < 0) {
 	    sBoss += " " + BOSS;
-	    console.log("Added " + BOSS + " to possible spawned bosses");
 	    found = 1;
 	}
     }
