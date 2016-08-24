@@ -1,14 +1,26 @@
 var fs = require("fs");
 
+function getSmallBlock(code, skills) {
+    var cCode = code;
+
+    while (skills[cCode] == null) cCode = cCode.left(cCode.length-1);
+
+    return skills[cCode];
+}
+
 function getLvl(User, Branch) {
-    var inf = [1];
-    var c = require("../ressources/ryzomapi/Characters.json")[User];
-    var skills = c["skills"];
+    var inf = [];
+    let c = require("../ressources/ryzomapi/Characters.json")[User];
+    let skills = c["skills"];
 	
     switch(Object.toLowerCase()){
     case "craft":
+	inf[0] = getSmallBlock("sc", skills);
+	break;
     case "la":
-	case "light":
+    case "light":
+    case "light armor":
+	
 	case "medium armor":
 	case "ma":
 	case "medium":
