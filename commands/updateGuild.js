@@ -11,4 +11,7 @@ upg.main = (bot, msg) => {
 	    bot.sendMessage(msg.channel, "Updated API for all Guilds.");
     }
 }
+upg.helper = () => {
+    updateAPI([], true);
+}
 module.exports = upg;

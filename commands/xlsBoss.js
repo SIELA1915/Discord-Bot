@@ -1,7 +1,7 @@
 var fs = require("fs");
 
 function sendFile(Amee, channel) {
-    Amee.sendFile(channel, "../ressources/bosses/Bosses.xlsx", "Bosses.xlsx");
+    Amee.sendFile(channel, __dirname + "/../ressources/bosses/Bosses.xlsx", "Bosses.xlsx");
 }
 
 function bossesToExcel(utcOff, Amee, channel) {
@@ -41,7 +41,7 @@ function bossesToExcel(utcOff, Amee, channel) {
 	bossSheet.addRow([Bosses[BOSS].name, new Date(Bosses[BOSS].time), {formula: "IF((DATEVALUE(\"" + fDate + "\")+TIMEVALUE(\"" + fDate + "\"))−(NOW()−(1÷24×" + utcOff + "))<(NOW()-NOW()),\"This Boss might be spawned!\", CONCATENATE(\"Might Spawn in: \", (DATEVALUE(\"" + fDate + "\")+TIMEVALUE(\"" + fDate + "\"))−(NOW()−(1÷24×" + utcOff + "))))", result:next}]);
     }
 
-    workbook.xlsx.writeFile("../ressources/bosses/Bosses.xlsx").then(function(){
+    workbook.xlsx.writeFile(__dirname + "/../ressources/bosses/Bosses.xlsx").then(function(){
 	console.log("done");
 	sendFile(Amee, channel);
     });

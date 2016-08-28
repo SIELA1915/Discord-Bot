@@ -195,9 +195,9 @@ amee.on("message", msg => {
 
 amee.on("presence", function(oldUser, newUser) {
     if (oldUser.status == "offline" && newUser.status == "online" && amee.servers.get("name", "Rift Walkers").members.has("id", newUser.id)) {
-	    var rChar = require("./ressources/ryzomapi/Char_Map.json")[newUser.id];
-	    updateAPI([rChar], false);
-	updateAPI(null, true);
+	var rChar = require("./ressources/ryzomapi/Char_Map.json")[newUser.id];
+	updateAPI([rChar], false);
+	setTimeout(commands['updateGuild'].helper(), 5000);
     };
 });
 
