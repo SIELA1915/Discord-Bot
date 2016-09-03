@@ -41,7 +41,6 @@ getm.main = (bot, msg) => {
 		bot.sendMessage(msg.channel, help);
 	    }
 	}
-	updateAPI(null, true);
     }
 }
 module.exports = getm;

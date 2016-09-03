@@ -37,7 +37,8 @@ commands.load.notservers = [];
 commands.load.main = function(bot, msg) {
     if (msg.author.id == OWNERID){
     var args = msg.content.split(' ')[2];
-    try {
+	try {
+	    args = args.toLowerCase();
         delete commands[args];
         delete require.cache[__dirname+'/commands/'+args+'.js'];
         commands[args] = require(__dirname+'/commands/'+args+'.js');
@@ -57,6 +58,7 @@ commands.unload.main = function(bot, msg) {
     if (msg.author.id == OWNERID){
         var args = msg.content.split(' ')[2];
         try {
+	    args = args.toLowerCase();
             delete commands[args];
             delete require.cache[__dirname+'/commands/'+args+'.js'];
             bot.sendMessage(msg, 'Unloaded '+args);
@@ -76,6 +78,7 @@ commands.reload.main = function(bot, msg) {
     if (msg.author.id == OWNERID){
         var args = msg.content.split(' ')[2];
         try {
+	    args = args.toLowerCase();
             delete commands[args];
             delete require.cache[__dirname+'/commands/'+args+'.js'];
             commands[args] = require(__dirname+'/commands/'+args+'.js');
@@ -119,7 +122,7 @@ var checkCommand = function(msg) {
             ping(msg);
         } else {
 	    amee.startTyping(msg.channel);
-            commands[msg.content.split(' ')[1]].main(amee, msg);
+            commands[msg.content.split(' ')[1].toLowerCase()].main(amee, msg);
 	    amee.stopTyping(msg.channel);
             //console.log(commands[msg.content.split(' ')[1]].help);
         }
@@ -160,7 +163,7 @@ var checkNewCommands = (msg) => {
 
 //when bot is ready load commands
 amee.on("ready", () => {
-    console.log("Ready to begin! Serving in ${amee.channels.length} channels");
+    console.log("Ready to begin! Serving in " + amee.channels.length + "channels");
     amee.setStatus("online", "watching over Atys");
     var gl = require("./globalFuncs.js")();
     loadCommands();
@@ -197,7 +200,7 @@ amee.on("presence", function(oldUser, newUser) {
     if (oldUser.status == "offline" && newUser.status == "online" && amee.servers.get("name", "Rift Walkers").members.has("id", newUser.id)) {
 	var rChar = require("./ressources/ryzomapi/Char_Map.json")[newUser.id];
 	updateAPI([rChar], false);
-	setTimeout(commands['updateGuild'].helper(), 5000);
+	setTimeout(commands['updateguild'].helper(), 5000);
     };
 });
 
@@ -212,11 +215,6 @@ amee.on('error', (err) => {
 amee.on("disconnected", () => {
 	//alert the console
 	console.log("Disconnected!");
-
-    amee.logout();
-    
-	//exit node.js with an error
-	process.exit(1);
 });
 
 amee.loginWithToken("MTc4NTkwMjYyMTQ5MzgyMTQ0.Cg_U-g.IvSBjQxpgsd0YsXISU9UflbZVug");

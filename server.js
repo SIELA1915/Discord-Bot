@@ -2,82 +2,68 @@ var http = require('http');
 var port = process.env.port || 8888;
 
 var text = "";
+var lines = [];
 var args = {};
 
 var server = http.createServer(function (request, response) {
 	var title = 'Ryzom API | Test';
 	
-	console.log("Recieved request");
-
-      	if (request.method == "POST") {
-	    console.log("Request is POST");
-	    var POST_data = "";
+    var data = "";
 	    request.on('data', (chunk) => {
 		    console.log("recieved data chunk");
 		    var d_str = chunk.toString();
-		    POST_data += d_str;
+		    data += d_str;
 		});
-	    request.on('end', () => {
-		    if (POST_data.includes("submit=submit")) {
-			console.log("was submit data");
-		    var r_p = POST_data.substring(POST_data.lastIndexOf('\r\n') + 1);
+    request.on('end', () => {
+	if (request.method == "POST"){
+		    if (data.includes("submit=submit")) {
+		    var r_p = data.substring(data.lastIndexOf('\r\n') + 1);
 		    
 		    var P = require("url").parse("/foo?" + r_p, true).query;
-		    
-		    console.log(P);
-		    args = P;
-
-		    console.log("Preparing html");
-
-		    response.statusCode= 200;
-		    response.setHeader('Content-Type', 'text/html;charset=utf8');
-		    
-		    text += args["command"] + '<br>';
-			
-			console.log(text);
-
-		    var body = '<form method="post" action="/webig_test.php">';
-		    body += '<label>';
-		    body += text;
-		    var li = new Array(15);
-		    li.fill('<br>');
-		    body += li.join("");
-			var pre = "";
-
-		    body += '<input type="text" name="command" value="' + pre  + '" size="60">';
-		    body += '</label>'
-		    body += '<input type="submit" name="submit" value="submit">';
-		    body += '</form>';
-
-		    writeRyzom(response, title, body);    
-		    console.log("Wrote and sent window");
+			P["post"] = true;
+			console.log("_POST = ");
+			console.log(P);
+			args = P;
 		    }
-		});
-	    //	    response.end();
-	} else {
-	    console.log("Request is GET");
-
-	    console.log("Preparing html");
-
-	    response.statusCode = 200;
-	    response.setHeader('Content-Type', 'text/html;charset=utf8');
-
-	    var body = '<form method="post" action="/webig_test.php">';
-	    body += '<label>';
-	    var li = new Array(15);
-	    li.fill('<br>');
-	    body += li.join("");
-	    
-	    var pre = "";
-
-	    body += '<input type="text" name="command" value="' + pre  + '" size="60">';
-	    body += '</label>'
-	    body += '<input type="submit" name="submit" value="submit">';
-	    body += '</form>';
-
-	    writeRyzom(response, title, body);
-	    console.log("Wrote and sent window");
 	}
+	 else if (request.method == "GET") {
+	    var G = require("url").parse(request.url, true).query;
+	    G["post"] = false
+	    console.log("_GET = ");
+	    console.log(G);
+	    args = G;
+	}
+    
+    response.statusCode= 200;
+    response.setHeader('Content-Type', 'text/html;charset=utf8');
+    var cookie = request.headers["cookie"];
+    if (cookie == undefined) cookie = "";
+    else cookie = cookie.substring(cookie.indexOf("log=")+4);
+    if (args["post"]) cookie += args["command"] + '<br>' + ',';
+    
+    response.setHeader('set-cookie', 'log=' + cookie);
+    
+    console.log(cookie);
+    
+	text = cookie.split(',').join('');
+    
+    var body = '<form method="post" action="/webig_test.php">';
+    body += '<label>';
+    body += text;
+    var li = new Array(15 - cookie.split(',').length);
+    li.fill('<br>');
+    body += li.join("");
+    var pre = "";
+    
+    body += '<input type="text" name="command" value="' + pre  + '" size="60">';
+    body += '</label>';
+    body += '<input type="submit" name="submit" value="submit">';
+    body += '</form>';
+    
+    writeRyzom(response, title, body);    
+});
+});
+
 	    /*response.statusCode = 200;
 	response.setHeader('Content-Type', 'text/html;charset=utf8');
     response.write('<!doctype html>\n<html>\n<head>\n');
@@ -103,7 +89,6 @@ var server = http.createServer(function (request, response) {
     response.write('<br>\n </div>\n </div>\n </div>\n </div>\n');
     response.end('<div class="ryzom-ui-bl">\n <div class="ryzom-ui-br">\n <div class="ryzom-ui-b"></div>\n </div>\n </div>\n <p class="ryzom-ui-notice">powered by <a class="ryzom-ui-notice" href="http://dev.ryzom.com/projects/ryzom-api/wiki">ryzom-api</a></p>\n </div>\n </body>\n </html>\n');
 	*/
-    });
 
 function writeRyzom(res, title, body) {
     console.log("Writing Window");

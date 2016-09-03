@@ -1,5 +1,7 @@
 var fs = require("fs");
 
+var channel = "219900116281065474";
+
 function killedBoss(Boss, d, bot, msg) {
     var Bosses = require("../ressources/bosses/Bosses.json");
     var cTime = d===0?new Date():d;
@@ -8,7 +10,7 @@ function killedBoss(Boss, d, bot, msg) {
     var found = 0;
     for (var BOSS in Bosses) {
 	var cBoss = Bosses[BOSS];
-	console.log("Boss: " + Boss + " Time: " + cTime + " cBoss.name: " + cBoss.name + " cBoss.time: " + cBoss.time);
+	//console.log("Boss: " + Boss + " Time: " + cTime + " cBoss.name: " + cBoss.name + " cBoss.time: " + cBoss.time);
 	if (cBoss.name == Boss) {
 	    sBoss = BOSS;
 	    found = 1;
@@ -29,13 +31,20 @@ function killedBoss(Boss, d, bot, msg) {
 	console.log("Updated Boss: " + Boss + " to last killed: " + sTime);
 	Bosses[sBoss].time = cTime.getTime();
 	fs.writeFileSync(__dirname + "/../ressources/bosses/Bosses.json", JSON.stringify(Bosses), "utf8");
-	var timer = function timer(B) {
-	    bot.sendMessage(msg.channel, B + " might first respawn in 5 minutes!");
+	var ftimer = (B) => {
+	    bot.sendMessage(channel, B + " might first respawn in 30 minutes!");
 	}
-	var rTime = new Date(cTime);
-	rTime.setTime(rTime.getTime() + (48 * 60 * 60 * 1000) - (5 * 60 * 1000));
-	var tarr = timeToGo(rTime);
-	var to = setTimeout(timer, (tarr[0] * 60 * 60 * 1000) + (tarr[1] * 60 * 1000) + (tarr[2] * 1000), Boss);
+	var fTime = new Date(cTime);
+	fTime.setTime(fTime.getTime() + (48 * 60 * 60 * 1000) - (30 * 60 * 1000));
+	var farr = timeToGo(fTime);
+	var ltimer = (B) => {
+	    bot.sendMessage(channel, B + " is surely respawned in 30 minutes!");
+	}
+	var lTime = new Date(cTime);
+	lTime.setTime(lTime.getTime() + (96 * 60 * 60 * 1000) - (30 * 60 * 1000));
+	var larr = timeToGo(lTime);
+	var tof = setTimeout(ftimer, (farr[0] * 60 * 60 * 1000) + (farr[1] * 60 * 1000) + (farr[2] * 1000), Boss);
+	var tol = setTimeout(ltimer, (larr[0] * 60 * 60 * 1000) + (larr[1] * 60 * 1000) + (larr[2] * 1000), Boss);
 	return "Updated Boss: " + Boss + " to last killed: " + sTime;
     }
 }

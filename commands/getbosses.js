@@ -1,15 +1,15 @@
 function getBosses() {
     var Bosses = require("../ressources/bosses/Bosses.json");
-/*    Bosses.sort((a,b) => {
+    Bosses.sort((a,b) => {
 	if (a.time < b.time)
 	    return 1;
 	else if (a.time > b.time)
 	    return -1;
 	else
 	    return 0;
-    });*/
-    //Find corresponding Boss
-    var sBoss = "";
+    });
+    //Find first non-spawned Boss
+    var lBoss = "";
     var found = 0;
     for (var BOSS in Bosses) {
 	var cBoss = Bosses[BOSS];
@@ -18,8 +18,10 @@ function getBosses() {
 	bTime.setTime(bTime.getTime() + (48 * 60 * 60 * 1000));
 	var tillArr = timeToGo(bTime);
 	if (tillArr[3] < 0) {
-	    sBoss += " " + BOSS;
+	    lBoss = cBoss.name;
+	    console.log("first spawned boss: " + lBoss);
 	    found = 1;
+	    break;
 	}
     }
 
@@ -33,10 +35,12 @@ function getBosses() {
 	var Spawned = 0;
 	var nind = 0;
 	var nSpawned = 0;
+	var limit = false;
 	var nBosses = ["```diff\n- These bosses are not spawned: "];
 	for (var BOSS in Bosses) {
 	    var fBoss = Bosses[BOSS];
-	    if (sBoss.includes(" " + BOSS)) {
+	    if (fBoss.name == lBoss) limit = true;
+	    if (!limit) {
 		if (Spawned == 0) {
 		    sBosses[ind] += fBoss.name;
 		} else {
