@@ -19,7 +19,7 @@ exports.main = (user, guild) => {
 		    cDB[user[u]] = result;
 		    fs.writeFileSync(__dirname + "/../ressources/ryzomapi/Characters.json", JSON.stringify(cDB), "utf8");
 		    d = true;
-		    console.log("done with " + u);
+//		    console.log("done with " + u);
 		});
 	    });
 	    /*	    while(d === undefined) {
@@ -35,18 +35,18 @@ exports.main = (user, guild) => {
 	    (function(g) {
 		var gkey = gKeys[g];
 		var d;
-		console.log('starting: ' + g + " with key: " + gkey);
+//		console.log('starting: ' + g + " with key: " + gkey);
 		request.post({url:'http://api.ryzom.com/guild.php', form: {apikey:gkey}}, function(err,httpResponse,body){
 		    parser.parseString(body, function(err, result) {
-			console.log(err);
+			if (err) console.log(err);
 			gDB[g] = result;
-			console.log('Done: ' + g + " with key: " + gkey);
+//			console.log('Done: ' + g + " with key: " + gkey);
 			fs.writeFileSync(__dirname + "/../ressources/ryzomapi/Guilds.json", JSON.stringify(gDB), "utf8");
-			console.log("Succesfully wrote to file");
+//			console.log("Succesfully wrote to file");
 			d = true;
 		    });
 		});
-		console.log("Finished function");
+//		console.log("Finished function");
 	    })(g);
 	    /*	    while(d === undefined) {
 		    require('deasync').runLoopOnce();
@@ -54,5 +54,5 @@ exports.main = (user, guild) => {
 	    */
 	}
     }
-    console.log("Started all requests");
+//    console.log("Started all requests");
 }

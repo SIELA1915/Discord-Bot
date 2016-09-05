@@ -161,6 +161,28 @@ function getInfo(Mode, Subject) {
 	    break;
 	}
 	break;
+    case "G":
+	switch(Subject){
+	case "bossmacro":
+	case "boss macro":
+	    var infoText = __dirname + "/../ressources/general/info/bossmacro.txt";
+	    try {
+		if (fs.statSync(infoText).isFile()) {
+		    inf[0] = fs.readFileSync(infoText, "utf8");
+		}
+	    } catch(e) {}
+
+	    var data = __dirname + "/../ressources/general/data/bossmacro.txt";
+	    try {
+		if (fs.statSync(data).isFile()) {
+		    inf[1] = data;
+		    inf[2] = "Boss Macro.txt";
+		}
+	    } catch(e) {}
+	    break;
+	default:
+	    break;
+	}
     default:
 	break;
     }
@@ -180,7 +202,7 @@ geti.main = (bot, msg) => {
 	var help = "Use: ```xl\n/amee getInf B Boss     'gives info and map of spawns for Boss'\n/amee getInf L Land     'gives info and map of spawns for region'\n```";
         var aArg = msg.content.split(' ');
 	if (aArg.length >= 4) {
-	    if (aArg[2] == "B" || aArg[2] == "L") {
+	    if (aArg[2] == "B" || aArg[2] == "L" || aArg[2] == "G") {
 		var info = getInfo(aArg[2], aArg.slice(3).join(" "));
 		if (info[0] != null)
 		    bot.sendMessage(msg.channel, info[0]);
