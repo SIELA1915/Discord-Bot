@@ -1,3 +1,5 @@
+var registerchar = {};
+
 var fs = require("fs");
 
 registerchar.args = '<IG-Name> <API-Key>';
@@ -27,3 +29,4 @@ registerchar.main = (bot, msg, channel) => {
 	channel.sendMessage("Not enough Arguments. " + help);
     }
 } 
+module.exports = registerchar;

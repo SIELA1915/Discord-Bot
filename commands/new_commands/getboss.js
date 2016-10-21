@@ -1,4 +1,0 @@
-{ args: '<name>',
-  help: 'Returns last time specified boss was killed and earliest time the boss might be respawned.',
-  notservers: [ 'Ryzom Karavan' ],
-  main: '(bot, msg, channel) => {\n            var aArg = msg.content.split(\' \');\n\t    if (aArg.length > 3) {\n\t\tchannel.sendMessage("Too many Arguments. Use:```xl\\n/getboss <Boss>     \'gets last kill and earliest respawn for Boss\'\\n```");\n\t    } else if (aArg.length == 3) {\n\t\t    channel.sendMessage(getBoss(aArg[2]));\n\t    } else {\n\t\tchannel.sendMessage("Not enough Arguments. Use:```xl\\n/getboss <Boss>     \'gets last kill and earliest respawn for Boss\'\\n```");\n\t    }\n}' }

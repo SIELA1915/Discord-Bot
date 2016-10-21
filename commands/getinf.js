@@ -1,3 +1,5 @@
+var getinf = {};
+
 var fs = require("fs");
 
 function getInfo(Mode, Subject) {
@@ -210,3 +212,4 @@ getinf.main = (bot, msg, channel) => {
 	channel.sendMessage("Not enough Arguments. " + help);
     }   
 } 
+module.exports = getinf;

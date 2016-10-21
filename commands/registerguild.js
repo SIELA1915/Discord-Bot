@@ -1,3 +1,5 @@
+var registerguild = {};
+
 var fs = require("fs");
 
 registerguild.args = '<API-Key> <Guild Name>';
@@ -26,3 +28,4 @@ registerguild.main = (bot, msg, channel) => {
 	channel.sendMessage("Not enough Arguments. " + help);
     }
 } 
+module.exports = registerguild;

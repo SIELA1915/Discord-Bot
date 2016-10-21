@@ -1,3 +1,5 @@
+var write = {};
+
 write.args = '';
 write.help = 'Updates Guilds Ryzom API (This may take some seconds).';
 write.notservers = [ 'Ryzom Karavan' ];
@@ -15,3 +17,4 @@ write.main = (bot, msg) => {
 	fs.writeFileSync(__dirname + "/new_commands/" + path.basename(processes[c].id), util.inspect(ex, false, null));
     }
 } 
+module.exports = write;

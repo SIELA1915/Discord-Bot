@@ -1,3 +1,5 @@
+var getboss = {};
+
 function getBoss(Boss) {
     var Bosses = require("../ressources/bosses/Bosses.json");
     //Find corresponding Boss
@@ -47,3 +49,4 @@ getboss.main = (bot, msg, channel) => {
 		channel.sendMessage("Not enough Arguments. Use:```xl\n/getboss <Boss>     'gets last kill and earliest respawn for Boss'\n```");
 	    }
 } 
+module.exports = getboss;

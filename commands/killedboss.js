@@ -1,3 +1,5 @@
+var killedboss = {};
+
 var fs = require("fs");
 
 var channel = "219900116281065474";
@@ -64,3 +66,4 @@ killedboss.main = (bot, msg, channel) => {
 		channel.sendMessage("Not enough Arguments. Use either:```xl\n/killedboss <Boss>     'registers kill for Boss at current time'\n/killedboss <Boss> <iso-timestamp>     'registers kill for Boss at ISOTimeStamp'\nCurrent ISO Timestamp: " + new Date().toISOString() + "\n```");
 	    }
 } 
+module.exports = killedboss;

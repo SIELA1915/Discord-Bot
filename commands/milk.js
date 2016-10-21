@@ -1,3 +1,5 @@
+var milk = {};
+
 milk.args = '<name>';
 milk.help = 'Gives milk and cookies to the specified user. If none specified, gives milk and cookies to you.';
 milk.notservers = [];
@@ -15,3 +17,4 @@ milk.main = (bot, msg, channel) => {
 	    channel.sendMessage(bot.user.username + " aiye, " + msg.author + mEnd);
 	}
 } 
+module.exports = milk;

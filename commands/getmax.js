@@ -1,3 +1,5 @@
+var getmax = {};
+
 var fs = require("fs");
 
 function getMax(User, Object) {
@@ -83,3 +85,4 @@ getmax.main = (bot, msg, channel) => {
 	channel.sendMessage("Not enough Arguments. " + help);
     }
 } 
+module.exports = getmax;

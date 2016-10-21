@@ -1,3 +1,5 @@
+var updateguild = {};
+
 updateguild.args = '';
 updateguild.help = 'Updates Guilds Ryzom API (This may take some seconds).';
 updateguild.notservers = [ 'Ryzom Karavan' ];
@@ -8,3 +10,4 @@ updateguild.main = (bot, msg, channel) => {
 updateguild.helper = function () {
     updateAPI([], true);
 }
+module.exports = updateguild;

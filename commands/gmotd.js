@@ -1,3 +1,5 @@
+var gmotd = {};
+
 function getGmotd(Guild) {
     var inf = [];
     var g = require("../ressources/ryzomapi/Guilds.json");
@@ -32,3 +34,4 @@ gmotd.main = (bot, msg, channel) => {
 	}
     }
 } 
+module.exports = gmotd;

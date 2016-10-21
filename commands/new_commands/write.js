@@ -1,4 +1,0 @@
-{ args: '',
-  help: 'Updates Guilds Ryzom API (This may take some seconds).',
-  notservers: [ 'Ryzom Karavan' ],
-  main: '(bot, msg) => {\n//    console.log(require.cache[\'/home/pi/Ryzom/Tools/Discord-Bot/amee.js\'].children[3]);\n    var processes = require.cache[\'/home/pi/Ryzom/Tools/Discord-Bot/amee.js\'].children;\n    for (var c in processes) {\n\tvar ex = {};\n\tfor (var i in processes[c].exports) {\n\t    if (typeof processes[c].exports[i] == "function")\n\t\tex[i] = processes[c].exports[i].toString();\n\t    else\n\t\tex[i] = processes[c].exports[i];\n\t}\n\tfs.writeFileSync(__dirname + "/new_commands/" + path.basename(processes[c].id), util.inspect(ex, false, null));\n    }\n}' }

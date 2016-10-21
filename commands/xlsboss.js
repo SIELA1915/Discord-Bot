@@ -1,3 +1,5 @@
+var xlsboss = {};
+
 var fs = require("fs");
 
 function sendFile(bot, channel) {
@@ -55,3 +57,4 @@ xlsboss.main = (bot, msg, channel) => {
     if (aArg.length < 3) aArg[2] = 0;
     bossesToExcel(aArg[2], bot, msg.channel);
 } 
+module.exports = xlsboss;

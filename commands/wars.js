@@ -1,3 +1,5 @@
+var wars = {};
+
 //Create announcement for War in English
 function WarToEn(War) {
     var sWar = "[EN]\n";
@@ -133,3 +135,4 @@ wars.main = (bot, msg, channel) => {
 	}
     }
 } 
+module.exports = wars;

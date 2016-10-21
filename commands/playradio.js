@@ -1,3 +1,5 @@
+var playradio = {};
+
 playradio.args = '';
 playradio.help = 'Plays AgF Radio stream in specific channel';
 playradio.notservers = [];
@@ -64,3 +66,4 @@ playradio.main = (bot, msg, channel) => {
 	    console.log('Error joining voice channel: ' + err);
 	});
 } 
+module.exports = playradio;

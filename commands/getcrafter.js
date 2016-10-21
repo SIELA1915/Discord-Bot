@@ -1,3 +1,5 @@
+var getcrafter = {};
+
 var fs = require("fs");
 
 function getCrafter(Quality, Object) {
@@ -133,3 +135,4 @@ getcrafter.main = (bot, msg, channel) => {
 	    channel.sendMessage("Not enough Arguments. " + help);
 	}
 } 
+module.exports = getcrafter;

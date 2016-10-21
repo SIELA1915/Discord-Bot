@@ -1,3 +1,5 @@
+var hugs = {};
+
 hugs.args = '<name>';
 hugs.help = 'Hugs the specified user. If none specified, hugs you.';
 hugs.notservers = [];
@@ -45,3 +47,4 @@ hugs.tagged = (bot, msg, channel) => {
     
     channel.sendMessage(bot.user.username + " hugs " + finArgs[0] + "!");
 } 
+module.exports = hugs;

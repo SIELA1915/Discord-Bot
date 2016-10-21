@@ -1,3 +1,5 @@
+var newwar = {};
+
 var fs = require("fs");
 
 function NewWar(Prod, Q, Attacker, AttFaction, Handover, Minute, Hour, Day, Month) {
@@ -89,3 +91,4 @@ newwar.main = (bot, msg, channel) => {
 	    channel.sendMessage(success);
     }
 } 
+module.exports = newwar;

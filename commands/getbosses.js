@@ -1,3 +1,5 @@
+var getbosses = {};
+
 function getBosses() {
     var Bosses = require("../ressources/bosses/Bosses.json");
     Bosses.sort((a,b) => {
@@ -83,3 +85,4 @@ getbosses.main = (bot, msg, channel) => {
 	    channel.sendMessage(bosses[port]);
     }
 } 
+module.exports = getbosses;

@@ -1,3 +1,5 @@
+var cookie = {};
+
 cookie.args = '<name>';
 cookie.help = 'Gives a cookie to the specified user. If none specified, gives a cookie to you.';
 cookie.notservers = [];
@@ -15,3 +17,4 @@ cookie.main = (bot, msg, channel) => {
 	    channel.sendMessage(bot.user.username + " aiye, " + msg.author + mEnd);
 	}
 } 
+module.exports = cookie;

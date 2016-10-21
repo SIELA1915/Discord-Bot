@@ -4,7 +4,7 @@ exports.main = (user, guild) => {
     var request = require("request");
     var xml2js = require("xml2js");
     var parser = new xml2js.Parser({explicitArray: false});
-    if (user != null) {
+    if (user != null && user.length > 0) {
 	var cDB = require("../ressources/ryzomapi/Characters.json");
 	var cKeys = require("../ressources/ryzomapi/Char_Keys.json");
 	for (var u in user) {

@@ -1,3 +1,5 @@
+var coffee = {};
+
 coffee.args = '<name>';
 coffee.help = 'Gives coffee to the specified user. If none specified, gives coffee to you.';
 coffee.notservers = [];
@@ -46,3 +48,4 @@ coffee.tagged = (bot, msg, channel) => {
     channel.sendMessage(bot.user.username + " aiye, " + finArgs[0] + mMid + finArgs[1] + mEnd)
 .catch(console.log);
 }
+module.exports = coffee;

@@ -1,3 +1,5 @@
+var looted = {};
+
 looted.args = '<Named>';
 looted.help = 'Sets a timer of 50 minutes for Named.';
 looted.notservers = [ 'Ryzom Karavan' ];
@@ -14,3 +16,4 @@ looted.main = (bot, msg, channel) => {
 	channel.sendMessage("Not enough Arguments.");
     }
 } 
+module.exports = looted;

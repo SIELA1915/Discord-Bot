@@ -18,15 +18,15 @@ commands.help = {};
 commands.help.args = '';
 commands.help.help = "view this message";
 commands.help.notservers = [];
-commands.help.main = function(bot, msg) {
+commands.help.main = function(bot, msg, channel) {
     var fin = "";
     for (let command in commands) {
         // console.log(command);
-        if (!commands[command].hide && (msg.channel.isPrivate || commands[command].notservers.indexOf(msg.channel.server.name) < 0)) {
+        if (!commands[command].hide && (msg.channel.isPrivate || commands[command].notservers.indexOf(msg.channel.guild.name) < 0)) {
             fin += (command+" "+commands[command].args) + "\n";
         }
     }
-    bot.sendMessage(msg, "```\n"+fin+"\n```");
+    channel.sendMessage("```\n"+fin+"\n```");
 }
 
 commands.load = {};
@@ -34,7 +34,7 @@ commands.load.args = '<command>';
 commands.load.help = '';
 commands.load.hide = true;
 commands.load.notservers = [];
-commands.load.main = function(bot, msg) {
+commands.load.main = function(bot, msg, channel) {
     if (msg.author.id == OWNERID){
     var args = msg.content.split(' ')[2];
 	try {
@@ -42,9 +42,9 @@ commands.load.main = function(bot, msg) {
         delete commands[args];
         delete require.cache[__dirname+'/commands/'+args+'.js'];
         commands[args] = require(__dirname+'/commands/'+args+'.js');
-        bot.sendMessage(msg, 'Loaded '+args);
+        channel.sendMessage('Loaded '+args);
     } catch(err) { 
-        bot.sendMessage(msg, "Command not found or error loading\n`"+err.message+"`");
+	channel.sendMessage("Command not found or error loading\n`"+err.message+"`");
     }
     }
 }
@@ -54,17 +54,17 @@ commands.unload.args = '<command>';
 commands.unload.help = '';
 commands.unload.hide = true;
 commands.unload.notservers = [];
-commands.unload.main = function(bot, msg) {
+commands.unload.main = function(bot, msg, channel) {
     if (msg.author.id == OWNERID){
         var args = msg.content.split(' ')[2];
         try {
 	    args = args.toLowerCase();
             delete commands[args];
             delete require.cache[__dirname+'/commands/'+args+'.js'];
-            bot.sendMessage(msg, 'Unloaded '+args);
+            channel.sendMessage('Unloaded '+args);
         }
         catch(err){
-            bot.sendMessage(msg, "Command not found");
+            channel.sendMessage("Command not found");
         }
     }
 }
@@ -74,7 +74,7 @@ commands.reload.args = '';
 commands.reload.help = '';
 commands.reload.hide = true;
 commands.reload.notservers = [];
-commands.reload.main = function(bot, msg) {
+commands.reload.main = function(bot, msg, channel) {
     if (msg.author.id == OWNERID){
         var args = msg.content.split(' ')[2];
         try {
@@ -82,10 +82,10 @@ commands.reload.main = function(bot, msg) {
             delete commands[args];
             delete require.cache[__dirname+'/commands/'+args+'.js'];
             commands[args] = require(__dirname+'/commands/'+args+'.js');
-            bot.sendMessage(msg, 'Reloaded '+args);
+            channel.sendMessage('Reloaded '+args);
         }
         catch(err){
-            bot.sendMessage(msg, "Command not found");
+            channel.sendMessage(channel, "Command not found");
 	    console.log(err);
         }
     }
@@ -107,11 +107,13 @@ var loadCommands = function() {
 
 var ping = function(msg) {
     var start = Date.now();
-    amee.sendMessage(msg, "pong", function(err, message){
+    msg.channel.sendMessage("pong")
+	.then(message => {
         var stop = Date.now();
 	var diff = (stop - start);
-        amee.updateMessage(message, "pong `"+diff+"ms`");
-    });
+        message.edit("pong `"+diff+"ms`");
+	})
+	.catch(console.log);
 }
 
 
@@ -121,10 +123,37 @@ var checkCommand = function(msg) {
             //bot.sendMessage(msg, Array(16).join('wat' -1) + " Batman!");
             ping(msg);
         } else {
-	    amee.startTyping(msg.channel);
-            commands[msg.content.split(' ')[1].toLowerCase()].main(amee, msg);
-	    amee.stopTyping(msg.channel);
-            //console.log(commands[msg.content.split(' ')[1]].help);
+	    var ch = msg.channel;
+	    var c = msg.content.split(' ')[1].toLowerCase();
+	    if (ch.type == "dm" || ch.type == "group") {
+		var valid = false;
+		for (var g in amee.guilds) {
+		    var tmp = true;
+		    for (var n in c.notservers) {
+			if (amee.guilds[g].name == c.notservers[n] && amee.guilds[g].members.find("id", msg.author.id) != null) {
+			    tmp = false;
+			}
+		    }
+		    if (tmp) {
+			valid == true;
+			break;
+		    }
+		}
+		if (valid) {
+		    ch.startTyping();
+		    commands[msg.content.split(' ')[1].toLowerCase()].main(amee, msg, ch);
+		    ch.stopTyping();
+		} else {
+		    ch.sendMessage("This command isn't available");
+		}
+	    } else if (commands[c].notservers.indexOf(ch.guild.name) > -1) {
+		ch.sendMessage("This command isn't available here");
+	    } else {
+		ch.startTyping();
+		commands[msg.content.split(' ')[1].toLowerCase()].main(amee, msg, ch);
+		ch.stopTyping();
+		//console.log(commands[msg.content.split(' ')[1]].help);
+	    }
         }
     }
     catch(err) {
@@ -136,6 +165,7 @@ var checkNewCommands = (msg) => {
     msg.content = msg.content.toLowerCase();
     for (var c in commands) {
 	if (commands[c].tagged === undefined) continue;
+	if (commands[c].notservers.indexOf(msg.channel.guild) > -1) continue;
 	if (msg.content.includes(" me "))
 	    msg.content.replace(" me ", " <@" + msg.author.id + "> ");
 	if (msg.content.includes(" i "))
@@ -157,14 +187,14 @@ var checkNewCommands = (msg) => {
 	    }
 	}
 	if (!isC) continue;
-	commands[c].tagged(amee, msg);
+	commands[c].tagged(amee, msg, msg.channel);
     }
 }
 
 //when bot is ready load commands
 amee.on("ready", () => {
-    console.log("Ready to begin! Serving in " + amee.channels.length + "channels");
-    amee.setStatus("online", "watching over Atys");
+    console.log("Ready to begin! Serving in " + amee.channels.array().length + "channels");
+    amee.user.setStatus("online", "watching over Atys");
     var gl = require("./globalFuncs.js")();
     loadCommands();
 /*    var request = require("request");
@@ -176,12 +206,12 @@ amee.on("ready", () => {
 });*/
 });
 
-amee.on("serverNewMember", function(server, user) {
-    if (server.name == "Ryzom Karavan") {
-	amee.sendMessage(server.channels.get("name", "verification"), amee.user.username + " Aiye, my follower! Welcome to the Ryzom Karavan Discord Server! Please leave a mes\
+amee.on("guildMemberAdd", function(guild, user) {
+    if (guild.name == "Ryzom Karavan") {
+	guild.channels.get("name", "verification").sendMessage(amee.user.username + " Aiye, my follower! Welcome to the Ryzom Karavan Discord Server! Please leave a mes\
 sage with @Administrators, telling your in-game name and which Guild you're in, so we can ensure that no spies have access to our server.");
-    } else if (server.name == "Rift Walkers") {
-	amee.sendMessage(server.channels.get("name", "verify"), "Welcome to the server of the Rift Walkers! Get to voice chat with our members or ask Amee for useful information. But first, you got to highlight HO's or GL and tell them your ingame name, so they can verify you're a member of us. Have fun!");
+    } else if (guild.name == "Rift Walkers") {
+	guild.channels.get("name", "verify").sendMessage("Welcome to the server of the Rift Walkers! Get to voice chat with our members or ask Amee for useful information. But first, you got to highlight HO's or GL and tell them your ingame name, so they can verify you're a member of us. Have fun!");
     }
 });
 
@@ -196,10 +226,11 @@ amee.on("message", msg => {
     }
 });
 
-amee.on("presence", function(oldUser, newUser) {
-    if (oldUser.status == "offline" && newUser.status == "online" && amee.servers.get("name", "Rift Walkers").members.has("id", newUser.id)) {
+amee.on("presenceUpdate", function(oldUser, newUser) {
+    if (oldUser.status == "offline" && newUser.status == "online" && amee.guild.get("name", "Rift Walkers").members.exists("id", newUser.id)) {
 	var rChar = require("./ressources/ryzomapi/Char_Map.json")[newUser.id];
-	updateAPI([rChar], false);
+	if (rChar != undefined)
+	    updateAPI([rChar], false);
 	setTimeout(commands['updateguild'].helper(), 5000);
     };
 });
@@ -212,9 +243,14 @@ amee.on('error', (err) => {
 });
 
 //when the bot disconnects
-amee.on("disconnected", () => {
+amee.on("disconnect", () => {
 	//alert the console
 	console.log("Disconnected!");
 });
 
-amee.loginWithToken("MTc4NTkwMjYyMTQ5MzgyMTQ0.Cg_U-g.IvSBjQxpgsd0YsXISU9UflbZVug");
+process.on('uncaughtException', function(err) {
+    // handle the error safely
+    console.log(err)
+})
+
+amee.login("MTc4NTkwMjYyMTQ5MzgyMTQ0.Cg_U-g.IvSBjQxpgsd0YsXISU9UflbZVug");

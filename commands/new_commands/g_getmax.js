@@ -1,4 +1,0 @@
- args: '<object>',
-  help: 'Gives you the highest quality you can wear of specified item.',
-  notservers: [ 'Ryzom Karavan' ],
-  main: '(bot, msg, channel) => {\n    var help = "Please specify an object to get the highest quality for.";\n    var aArg = msg.content.split(\' \');\n    if (aArg.length >= 3) {\n\tvar rChar = require("../ressources/ryzomapi/Char_Map.json")[msg.author.id];\n\tvar obj = aArg.slice(2).join(" ");\n\tvar q = getMax(rChar, obj);\n\tif (q[0] != null) {\n\t    channel.sendMessage("You can wear " + obj + " of quality: " + q[0]);\n\t} else {\n\t    channel.sendMessage("Object " + obj + " wasn\'t found");\n\t}\n\tupdateAPI([rChar], false);\n    } else {\n\tchannel.sendMessage("Not enough Arguments. " + help);\n    }\n}' 
