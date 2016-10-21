@@ -74,19 +74,12 @@ function getBosses() {
     }
 }
 
-var gets = {};
-
-gets.args = "";
-gets.help = "Lists all bosses, grouped by possibly spawned or not."
-gets.notservers = ["Ryzom Karavan"];
-gets.main = (bot, msg) => {
-    if (msg.channel.isPrivate || msg.channel.server.id == "175308871122812929") {
-	bot.sendMessage(msg.channel, "This functionality isn't available.");
-    } else {
+getbosses.args = '';
+getbosses.help = 'Lists all bosses, grouped by possibly spawned or not.';
+getbosses.notservers = [ 'Ryzom Karavan' ];
+getbosses.main = (bot, msg, channel) => {
 	var bosses = getBosses();
 	for (var port in bosses) {
-	    bot.sendMessage(msg.channel, bosses[port]);
-	}
+	    channel.sendMessage(bosses[port]);
     }
-}
-module.exports = gets;
+} 

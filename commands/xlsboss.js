@@ -1,10 +1,10 @@
 var fs = require("fs");
 
-function sendFile(Amee, channel) {
-    Amee.sendFile(channel, __dirname + "/../ressources/bosses/Bosses.xlsx", "Bosses.xlsx");
+function sendFile(bot, channel) {
+    channel.sendFile(__dirname + "/../ressources/bosses/Bosses.xlsx", "Bosses.xlsx");
 }
 
-function bossesToExcel(utcOff, Amee, channel) {
+function bossesToExcel(utcOff, bot, channel) {
     var Bosses = require("../ressources/bosses/Bosses.json");
 
     var Excel = require("exceljs");
@@ -43,22 +43,15 @@ function bossesToExcel(utcOff, Amee, channel) {
 
     workbook.xlsx.writeFile(__dirname + "/../ressources/bosses/Bosses.xlsx").then(function(){
 	console.log("done");
-	sendFile(Amee, channel);
+	sendFile(bot, channel);
     });
 }
 
-var xls = {};
-
-xls.args = "<gmt-offset>";
-xls.help = "Generates an xls spreadsheet with all the boss infos. Uses gmt-offset (plain number) for respawn time calculation."
-xls.notservers = ["Ryzom Karavan"];
-xls.main = (bot, msg) => {
-    if (msg.channel.isPrivate || msg.channel.server.id == "175308871122812929") {
-	bot.sendMessage(msg.channel, "This functionality isn't available.");
-    } else{
-	var aArg = msg.content.split(" ");
-	if (aArg.length < 3) aArg[2] = 0;
-	bossesToExcel(aArg[2], bot, msg.channel);
-    }
-}
-module.exports = xls;
+xlsboss.args = '<gmt-offset>';
+xlsboss.help = 'Generates an xls spreadsheet with all the boss infos. Uses gmt-offset (plain number) for respawn time calculation.';
+xlsboss.notservers = [ 'Ryzom Karavan' ];
+xlsboss.main = (bot, msg, channel) => {
+    var aArg = msg.content.split(" ");
+    if (aArg.length < 3) aArg[2] = 0;
+    bossesToExcel(aArg[2], bot, msg.channel);
+} 

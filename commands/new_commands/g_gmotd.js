@@ -1,0 +1,4 @@
+ args: '',
+  help: 'Gives you the actual guild message of the day.',
+  notservers: [ 'Ryzom Karavan' ],
+  main: '(bot, msg, channel) => {\n    var help = "Please connect a guild to the server.";\n    var aArg = msg.content.split(\' \');\n    if (aArg.length <= 2) {\n\tvar rGuild = require("../ressources/ryzomapi/Guild_Map.json")[msg.guild.id];\n\tvar m = getGmotd(rGuild);\n\tif (m[0] != null) {\n\t    msg.guild.channels.find("name", "general").sendMessage(rGuild + "\'s guild message of the day: " + m[0]);\n\t} else {\n\t    channel.sendMessage(help);\n\t}\n    } else {\n\tvar rGuild = aArg.slice(2).join(" ");\n\tvar m = getGmotd(rGuild);\n\tif (m[0] != null) {\n\t    msg.guild.channels.find("name", "general").sendMessage(rGuild + "\'s guild message of the day: " + m[0]);\n\t} else {\n\t    channel.sendMessage("Invalid guild name");\n\t}\n    }\n}' 

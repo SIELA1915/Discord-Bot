@@ -63,30 +63,23 @@ function getMax(User, Object) {
     return inf;
 }
 
-var getm = {};
-
-getm.args = "<object>";
-getm.help = "Gives you the highest quality you can wear of specified item.";
-getm.notservers = ["Ryzom Karavan"];
-getm.main = (bot, msg) => {
-    if (msg.channel.isPrivate || msg.channel.server.id == "175308871122812929") {
-	bot.sendMessage(msg.channel, "This functionality isn't available.");
-    } else {
-	var help = "Please specify an object to get the highest quality for.";
-        var aArg = msg.content.split(' ');
-	if (aArg.length >= 3) {
-	    var rChar = require("../ressources/ryzomapi/Char_Map.json")[msg.author.id];
-	    var obj = aArg.slice(2).join(" ");
-	    var q = getMax(rChar, obj);
-	    if (q[0] != null) {
-		bot.sendMessage(msg.channel, "You can wear " + obj + " of quality: " + q[0]);
-	    } else {
-		bot.sendMessage(msg.channel, "Object " + obj + " wasn't found");
-	    }
-	    updateAPI([rChar], false);
+getmax.args = '<object>';
+getmax.help = 'Gives you the highest quality you can wear of specified item.';
+getmax.notservers = [ 'Ryzom Karavan' ];
+getmax.main = (bot, msg, channel) => {
+    var help = "Please specify an object to get the highest quality for.";
+    var aArg = msg.content.split(' ');
+    if (aArg.length >= 3) {
+	var rChar = require("../ressources/ryzomapi/Char_Map.json")[msg.author.id];
+	var obj = aArg.slice(2).join(" ");
+	var q = getMax(rChar, obj);
+	if (q[0] != null) {
+	    channel.sendMessage("You can wear " + obj + " of quality: " + q[0]);
 	} else {
-	    bot.sendMessage(msg.channel, "Not enough Arguments. " + help);
+	    channel.sendMessage("Object " + obj + " wasn't found");
 	}
+	updateAPI([rChar], false);
+    } else {
+	channel.sendMessage("Not enough Arguments. " + help);
     }
-}
-module.exports = getm;
+} 

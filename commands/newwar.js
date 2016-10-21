@@ -8,7 +8,6 @@ function NewWar(Prod, Q, Attacker, AttFaction, Handover, Minute, Hour, Day, Mont
     var found = 0;
     for (var OP in Outposts) {
 	var cOP = Outposts[OP];
-	console.log("OP: " + OP + " cOP.prod: " + cOP.prod + " cOP.q: " + cOP.q + " Prod: " + Prod + " Q: " + Q);
 	if (cOP.prod == Prod && cOP.q == Q) {
 	    Op = OP;
 	    found = 1;
@@ -46,19 +45,19 @@ function NewWar(Prod, Q, Attacker, AttFaction, Handover, Minute, Hour, Day, Mont
     }
 }
 
-var newWar = {};
-
-newWar.args = "<P> <Q> <\"G\"> <F> <T> <M> <D> <h> <m>";
-newWar.help = "Register a new war in the system. The Type Argument is either A or H, H meaning that it's a handover. The time and date arguments are always in GMT. No arguments for more information.";
-newWar.notservers = [];
-newWar.main = (bot, msg) => {
+newwar.args = '<P> <Q> <"G"> <F> <T> <M> <D> <h> <m>';
+newwar.help = 'Register a new war in the system. The Type Argument is either A or H, H meaning that it\'s a handover. The time and date arguments are always in GMT. No arguments for more information.';
+newwar.notservers = [];
+newwar.main = (bot, msg, channel) => {
     var aArg = msg.content.split(' ');
-    console.log(aArg);
     var from = -1;
     var to = -1;
     for (var a in aArg) {
 	var v = aArg[a];
-	if (v.includes("\"")) {
+	if (v.indexOf("\"") != v.lastIndexOf("\"")) {
+	    from = a;
+	    to = a;
+	} else if (v.includes("\"")) {
 	    if (from == -1) {
 		from = a;
 	    } else if (to == -1) {
@@ -68,17 +67,13 @@ newWar.main = (bot, msg) => {
 	}
     }
     ++to;
-    console.log(from);
-    console.log(to);
     var att = aArg.splice(from, to-from).join(" ");
-    console.log(att);
     att = att.replace(/\"/g, "");
     aArg.splice(from, 0, att);
-    console.log(aArg);
-	
-	if (aArg.length != 11) {
-	    bot.sendMessage(msg.channel, "Wrong Format! Syntax: \n/amee newWar P Q G F T M D h m\nP = Short name of the product of the attacked outpost\nQ = Quality of the product of the attacked outpost\nG = Name of the attacking guild (quotes if needed)\nF = Faction of the attacking guild\nT = Type of war : A for actual / H for handover\nM D H m = date and hour UTC of the beginning of the first phase of the war.");
-	} else {
+    
+    if (aArg.length != 11) {
+	channel.sendMessage("Wrong Format! Syntax: \n/amee newWar P Q G F T M D h m\P = Short name of the product of the attacked outpost\nQ = Quality of the product of the attacked outpost\nG = Name of the attacking guild (quotes if needed)\nF = Faction of the attacking guild\nT = Type of war : A for actual / H for handover\nM D H m = date and hour UTC of the beginning of the first phase of the war.");
+    } else {
 	    var Prod = aArg[2];
 	    var Q = aArg[3];
 	    var Attacker = aArg[4];
@@ -91,7 +86,6 @@ newWar.main = (bot, msg) => {
 	    
 	    updateWars();
 	    var success = NewWar(Prod, Q, Attacker, AttFaction, Help, Minute, Hour, Day, Month);
-	    bot.sendMessage(msg.channel, success);
-	}
+	    channel.sendMessage(success);
     }
-module.exports = newWar;
+} 

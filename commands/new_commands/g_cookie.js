@@ -1,0 +1,4 @@
+ args: '<name>',
+  help: 'Gives a cookie to the specified user. If none specified, gives a cookie to you.',
+  notservers: [],
+  main: '(bot, msg, channel) => {\n    var mEnd = ", take this cookie as a gift from me.\\n               ``_.:::::._\\n     .:::\'_|_\':::.\\n    /::\' --|-- \'::\\\\ \\n   |:\\" .---\\"---. \':|\\n   |: ( O R E O ) :|\\n   |:: `-------\' ::|\\n    \\\\:::.......:::/\\n     \':::::::::::\'\\n        `\'\\"\\"\\"\'` ``"\n    var aArg = msg.content.split(\' \');\n    var Arg = aArg[2];\n\tif (Arg) {\n\t    if (bot.users.get("username", Arg) != null) {\n\t\tchannel.sendMessage(bot.user.username + " aiye, " + bot.users.get("username", Arg) + mEnd);\n\t    } else {\n\t\tchannel.sendMessage(bot.user.username + " aiye, " + Arg + mEnd);\n\t    }\n\t} else {\n\t    channel.sendMessage(bot.user.username + " aiye, " + msg.author + mEnd);\n\t}\n}' 

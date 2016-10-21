@@ -190,30 +190,23 @@ function getInfo(Mode, Subject) {
     return inf;
 }
 
-var geti = {};
-
-geti.args = "<mode> <name>";
-geti.help = "Modes are: \nB - get Info about a Boss and its spawn locations.\nL - get Info about a Region and spawn locations for Bosses in it";
-geti.notservers = ["Ryzom Karavan"];
-geti.main = (bot, msg) => {
-    if (msg.channel.isPrivate || msg.channel.server.id == "175308871122812929") {
-	bot.sendMessage(msg.channel, "This functionality isn't available.");
-    } else {
-	var help = "Use: ```xl\n/amee getInf B Boss     'gives info and map of spawns for Boss'\n/amee getInf L Land     'gives info and map of spawns for region'\n```";
-        var aArg = msg.content.split(' ');
-	if (aArg.length >= 4) {
-	    if (aArg[2] == "B" || aArg[2] == "L" || aArg[2] == "G") {
-		var info = getInfo(aArg[2], aArg.slice(3).join(" "));
-		if (info[0] != null)
-		    bot.sendMessage(msg.channel, info[0]);
-		if (info[1] != null)
-		    bot.sendFile(msg.channel, info[1], info[2]);
-	    } else {
-		bot.sendMessage(msg.channel, "Unknown mode: " + aArg[2] + ". " + help);
-	    }
+getinf.args = '<mode> <name>';
+getinf.help = 'Modes are: \nB - get Info about a Boss and its spawn locations.\nL - get Info about a Region and spawn locations for Bosses in it';
+getinf.notservers = [ 'Ryzom Karavan' ];
+getinf.main = (bot, msg, channel) => {
+    var help = "Use: ```xl\n/amee getInf B Boss     'gives info and map of spawns for Boss'\n/amee getInf L Land     'gives info and map of spawns for region'\n```";
+    var aArg = msg.content.split(' ');
+    if (aArg.length >= 4) {
+	if (aArg[2] == "B" || aArg[2] == "L" || aArg[2] == "G") {
+	    var info = getInfo(aArg[2], aArg.slice(3).join(" "));
+	    if (info[0] != null)
+		channel.sendMessage(info[0]);
+	    if (info[1] != null)
+		channel.sendFile(info[1], info[2]);
 	} else {
-	    bot.sendMessage(msg.channel, "Not enough Arguments. " + help);
+	    channel.sendMessage("Unknown mode: " + aArg[2] + ". " + help);
 	}
-    }
-}
-module.exports = geti;
+    } else {
+	channel.sendMessage("Not enough Arguments. " + help);
+    }   
+} 

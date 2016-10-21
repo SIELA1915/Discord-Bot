@@ -1,0 +1,8 @@
+ args = '<name>',
+  help: 'Gives coffee to the specified user. If none specified, gives coffee to you.',
+  notservers: [],
+  main: '(bot, msg, channel) => {\n    var mEnd = "! Here you have some coffee as a gift from me!\\n   ( (\\n    ) )\\n  ..............\\n  |           |]\\n  \\\\         /\\n    `----\'";\n    var aArg = msg.content.split(\' \');\n    var Arg = aArg[2];\n    if (Arg) {\n\tif (bot.users.get("username", Arg) != null) {\n\t    channel.sendMessage(bot.user.username + " aiye, " + bot.users.get("username", Arg) + mEnd)\n.catch(console.log);\n\t} else {\n\t    channel.sendMessage(bot.user.username + " aiye, " + Arg + mEnd)\n.catch(console.log);\n\t}\n    } else {\n\tchannel.sendMessage(bot.user.username + " aiye, " + msg.author + mEnd)\n.catch(console.log);\n    }\n}',
+  tags: [ 'give', 'coffee' ],
+  mentions: [ 'to <@', 'from <@' ],
+  obl: [],
+  tagged: '(bot, msg, channel) => {\n    var mMid = "! Here you have some coffee as a gift from ";\n    var mEnd = "!\\n   ( (\\n    ) )\\n  ..............\\n  |           |]\\n  \\\\         /\\n    `----\'";\n    var aArg = msg.mentions;\n\n    var finArgs = [];\n    var ordArgs = {};\n    var cont = msg.content;\n    for (var m in coffee.mentions) {\n\tif (cont.indexOf(coffee.mentions[m]) == -1) {\n\t    ordArgs[String(2000+m)] = m;\n\t    aArg.push(bot.user);\n\t} else {\n\t    ordArgs[String(cont.indexOf(coffee.mentions[m]))] = m;\n\t}\n    }\n    var i = 0;\n    for (var o in ordArgs) {\n\tfinArgs[ordArgs[o]] = aArg[i];\n\t++i;\n    }\n\n    channel.sendMessage(bot.user.username + " aiye, " + finArgs[0] + mMid + finArgs[1] + mEnd)\n.catch(console.log);\n}'

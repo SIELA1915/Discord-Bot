@@ -1,25 +1,23 @@
-var hugs = {};
-
-hugs.args = "<name>";
-hugs.help = "Hugs the specified user. If none specified, hugs you."
+hugs.args = '<name>';
+hugs.help = 'Hugs the specified user. If none specified, hugs you.';
 hugs.notservers = [];
-hugs.main = (bot, msg) => {
+hugs.main = (bot, msg, channel) => {
     var aArg = msg.content.split(' ');
     var Arg = aArg[2];
 	if (Arg) {
 	    if (bot.users.get("username", Arg) != null) {
-		bot.sendMessage(msg.channel, bot.user.username + " hugs " + bot.users.get("username", Arg) + "!");
+		channel.sendMessage(bot.user.username + " hugs " + bot.users.get("username", Arg) + "!");
 	    } else {
-		bot.sendMessage(msg.channel, bot.user.username + " hugs " + Arg + "!");
+		channel.sendMessage(bot.user.username + " hugs " + Arg + "!");
 	    }
 	} else {
-	    bot.sendMessage(msg.channel, bot.user.username + " hugs " + msg.author);
+	    channel.sendMessage(bot.user.username + " hugs " + msg.author);
 	}
-}
-hugs.tags = ["hug"];
-hugs.mentions = [["hug <@", "hugs <@"]];
+};
+hugs.tags = [ 'hug' ];
+hugs.mentions = [ [ 'hug <@', 'hugs <@' ] ];
 hugs.obl = [];
-hugs.tagged = (bot, msg) => {
+hugs.tagged = (bot, msg, channel) => {
     var aArg = msg.mentions;
 
     var finArgs = [];
@@ -45,6 +43,5 @@ hugs.tagged = (bot, msg) => {
 	++i;
     }
     
-    bot.sendMessage(msg.channel, bot.user.username + " hugs " + finArgs[0] + "!");
-}
-module.exports = hugs;
+    channel.sendMessage(bot.user.username + " hugs " + finArgs[0] + "!");
+} 

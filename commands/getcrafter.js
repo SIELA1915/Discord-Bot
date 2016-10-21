@@ -110,15 +110,10 @@ function getCrafter(Quality, Object) {
     return inf;
 }
 
-var getc = {};
-
-getc.args = "<quality> <object>";
-getc.help = "Gives you a list of registered crafters that can craft specified object in specified quality for you.";
-getc.notservers = ["Ryzom Karavan"];
-getc.main = (bot, msg) => {
-    if (msg.channel.isPrivate || msg.channel.server.id == "175308871122812929") {
-	bot.sendMessage(msg.channel, "This functionality isn't available.");
-    } else {
+getcrafter.args = '<quality> <object>';
+getcrafter.help = 'Gives you a list of registered crafters that can craft specified object in specified quality for you.';
+getcrafter.notservers = [ 'Ryzom Karavan' ];
+getcrafter.main = (bot, msg, channel) => {
 	var help = "Please specify a quality and an object to get a crafter for.";
         var aArg = msg.content.split(' ');
 	if (aArg.length >= 4) {
@@ -127,16 +122,14 @@ getc.main = (bot, msg) => {
 	    var q = aArg[2].replace(/\D/g, '');
 	    var crafters = getCrafter(q, obj);
 	    if (crafters.length > 1) {
-		bot.sendMessage(msg.channel, crafters.slice(1).join(", ") + " can craft q" + q + " " + obj + " for you.");
+		channel.sendMessage(crafters.slice(2).join(", ") + " and " + crafters[1] + " can craft q" + q + " " + obj + " for you.");
 	    } else if (crafters[0] == 1) {
-		bot.sendMessage(msg.channel, "I do not have knowledge of any crafter that can craft q" + q + " " + obj + " for you.");
+		channel.sendMessage("I do not have knowledge of any crafter that can craft q" + q + " " + obj + " for you.");
 	    } else {
-		bot.sendMessage(msg.channel, "I do not know what " + obj + " is.");
+		channel.sendMessage("I do not know what " + obj + " is.");
 	    }
-	    updateAPI([rChar], false);
+//	    updateAPI([rChar], false);
 	} else {
-	    bot.sendMessage(msg.channel, "Not enough Arguments. " + help);
+	    channel.sendMessage("Not enough Arguments. " + help);
 	}
-    }
-}
-module.exports = getc;
+} 

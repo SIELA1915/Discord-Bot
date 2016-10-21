@@ -6,7 +6,7 @@ function getBoss(Boss) {
     for (var BOSS in Bosses) {
 	var cBoss = Bosses[BOSS];
 	console.log("Boss: " + Boss +  " cBoss.name: " + cBoss.name + " cBoss.time: " + cBoss.time);
-	if (cBoss.name == Boss) {
+	if (cBoss.name.toLowerCase() == Boss.toLowerCase()) {
 	    sBoss = BOSS;
 	    found = 1;
 	    break;
@@ -34,24 +34,16 @@ function getBoss(Boss) {
     }
 }
 
-var get = {};
-
-get.args = "<name>"
-get.help = "Returns last time specified boss was killed and earliest time the boss might be respawned."
-get.notservers = ["Ryzom Karavan"];
-get.main = (bot, msg) => {
-        if (msg.channel.isPrivate || msg.channel.server.id == "175308871122812929") {
-	    bot.sendMessage(msg.channel, "This functionality isn't available.");
-	} else {
+getboss.args = '<name>';
+getboss.help = 'Returns last time specified boss was killed and earliest time the boss might be respawned.';
+getboss.notservers = [ 'Ryzom Karavan' ];
+getboss.main = (bot, msg, channel) => {
             var aArg = msg.content.split(' ');
-	    console.log(aArg);
 	    if (aArg.length > 3) {
-		bot.sendMessage(msg.channel, "Too many Arguments. Use:```xl\n/getboss <Boss>     'gets last kill and earliest respawn for Boss'\n```");
+		channel.sendMessage("Too many Arguments. Use:```xl\n/getboss <Boss>     'gets last kill and earliest respawn for Boss'\n```");
 	    } else if (aArg.length == 3) {
-		    bot.sendMessage(msg.channel, getBoss(aArg[2]));
+		    channel.sendMessage(getBoss(aArg[2]));
 	    } else {
-		bot.sendMessage(msg.channel, "Not enough Arguments. Use:```xl\n/getboss <Boss>     'gets last kill and earliest respawn for Boss'\n```");
+		channel.sendMessage("Not enough Arguments. Use:```xl\n/getboss <Boss>     'gets last kill and earliest respawn for Boss'\n```");
 	    }
-	}
-}
-module.exports = get;
+} 

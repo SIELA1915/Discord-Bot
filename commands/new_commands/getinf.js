@@ -1,0 +1,4 @@
+{ args: '<mode> <name>',
+  help: 'Modes are: \nB - get Info about a Boss and its spawn locations.\nL - get Info about a Region and spawn locations for Bosses in it',
+  notservers: [ 'Ryzom Karavan' ],
+  main: '(bot, msg, channel) => {\n    var help = "Use: ```xl\\n/amee getInf B Boss     \'gives info and map of spawns for Boss\'\\n/amee getInf L Land     \'gives info and map of spawns for region\'\\n```";\n    var aArg = msg.content.split(\' \');\n    if (aArg.length >= 4) {\n\tif (aArg[2] == "B" || aArg[2] == "L" || aArg[2] == "G") {\n\t    var info = getInfo(aArg[2], aArg.slice(3).join(" "));\n\t    if (info[0] != null)\n\t\tchannel.sendMessage(info[0]);\n\t    if (info[1] != null)\n\t\tchannel.sendFile(info[1], info[2]);\n\t} else {\n\t    channel.sendMessage("Unknown mode: " + aArg[2] + ". " + help);\n\t}\n    } else {\n\tchannel.sendMessage("Not enough Arguments. " + help);\n    }   \n}' }

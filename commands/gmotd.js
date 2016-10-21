@@ -8,39 +8,27 @@ function getGmotd(Guild) {
     return inf;
 }
 
-var getm = {};
-
-getm.args = "";
-getm.help = "Gives you the actual guild message of the day.";
-getm.notservers = ["Ryzom Karavan"];
-getm.main = (bot, msg) => {
-    if (msg.channel.isPrivate || msg.channel.server.id == "175308871122812929") {
-	bot.sendMessage(msg.channel, "This functionality isn't available.");
-    } else {
-	var help = "Please connect a guild to the server.";
-        var aArg = msg.content.split(' ');
-	console.log(aArg);
-	console.log(aArg.length);
-	if (aArg.length <= 2) {
-	    console.log("get Connected");
-	    var rGuild = require("../ressources/ryzomapi/Guild_Map.json")[msg.server.id];
-	    var m = getGmotd(rGuild);
-	    if (m[0] != null) {
-		bot.sendMessage(msg.server.channels.get("name", "general"), rGuild + "'s guild message of the day: " + m[0]);
-	    } else {
-		bot.sendMessage(msg.channel, help);
-	    }
+gmotd.args = '';
+gmotd.help = 'Gives you the actual guild message of the day.';
+gmotd.notservers = [ 'Ryzom Karavan' ];
+gmotd.main = (bot, msg, channel) => {
+    var help = "Please connect a guild to the server.";
+    var aArg = msg.content.split(' ');
+    if (aArg.length <= 2) {
+	var rGuild = require("../ressources/ryzomapi/Guild_Map.json")[msg.guild.id];
+	var m = getGmotd(rGuild);
+	if (m[0] != null) {
+	    msg.guild.channels.find("name", "general").sendMessage(rGuild + "\'s guild message of the day: " + m[0]);
 	} else {
-	    console.log("get by name: ");
-	    var rGuild = aArg.slice(2).join(" ");
-	    console.log(rGuild);
-	    var m = getGmotd(rGuild);
-	    if (m[0] != null) {
-		bot.sendMessage(msg.server.channels.get("name", "general"), rGuild + "'s guild message of the day: " + m[0]);
-	    } else {
-		bot.sendMessage(msg.channel, help);
-	    }
+	    channel.sendMessage(help);
+	}
+    } else {
+	var rGuild = aArg.slice(2).join(" ");
+	var m = getGmotd(rGuild);
+	if (m[0] != null) {
+	    msg.guild.channels.find("name", "general").sendMessage(rGuild + "\'s guild message of the day: " + m[0]);
+	} else {
+	    channel.sendMessage("Invalid guild name");
 	}
     }
-}
-module.exports = getm;
+} 

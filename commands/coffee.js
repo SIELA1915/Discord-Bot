@@ -1,26 +1,27 @@
-var coffee = {};
-
-coffee.args = "<name>";
-coffee.help = "Gives coffee to the specified user. If none specified, gives coffee to you.";
+coffee.args = '<name>';
+coffee.help = 'Gives coffee to the specified user. If none specified, gives coffee to you.';
 coffee.notservers = [];
-coffee.main = (bot, msg) => {
+coffee.main = (bot, msg, channel) => {
     var mEnd = "! Here you have some coffee as a gift from me!\n   ( (\n    ) )\n  ..............\n  |           |]\n  \\         /\n    `----'";
     var aArg = msg.content.split(' ');
     var Arg = aArg[2];
-	if (Arg) {
-	    if (bot.users.get("username", Arg) != null) {
-		bot.sendMessage(msg.channel, bot.user.username + " aiye, " + bot.users.get("username", Arg) + mEnd);
-	    } else {
-		bot.sendMessage(msg.channel, bot.user.username + " aiye, " + Arg + mEnd);
-	    }
+    if (Arg) {
+	if (bot.users.get("username", Arg) != null) {
+	    channel.sendMessage(bot.user.username + " aiye, " + bot.users.get("username", Arg) + mEnd)
+.catch(console.log);
 	} else {
-	    bot.sendMessage(msg.channel, bot.user.username + " aiye, " + msg.author + mEnd);
+	    channel.sendMessage(bot.user.username + " aiye, " + Arg + mEnd)
+.catch(console.log);
 	}
-}
-coffee.tags = ["give", "coffee"];
-coffee.mentions = ["to <@", "from <@"];
+    } else {
+	channel.sendMessage(bot.user.username + " aiye, " + msg.author + mEnd)
+.catch(console.log);
+    }
+};
+coffee.tags = [ 'give', 'coffee' ];
+coffee.mentions = [ 'to <@', 'from <@' ];
 coffee.obl = [];
-coffee.tagged = (bot, msg) => {
+coffee.tagged = (bot, msg, channel) => {
     var mMid = "! Here you have some coffee as a gift from ";
     var mEnd = "!\n   ( (\n    ) )\n  ..............\n  |           |]\n  \\         /\n    `----'";
     var aArg = msg.mentions;
@@ -41,7 +42,7 @@ coffee.tagged = (bot, msg) => {
 	finArgs[ordArgs[o]] = aArg[i];
 	++i;
     }
-    
-    bot.sendMessage(msg.channel, bot.user.username + " aiye, " + finArgs[0] + mMid + finArgs[1] + mEnd);
+
+    channel.sendMessage(bot.user.username + " aiye, " + finArgs[0] + mMid + finArgs[1] + mEnd)
+.catch(console.log);
 }
-module.exports = coffee;

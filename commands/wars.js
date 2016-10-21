@@ -1,5 +1,3 @@
-var fs = require("fs");
-
 //Create announcement for War in English
 function WarToEn(War) {
     var sWar = "[EN]\n";
@@ -121,20 +119,17 @@ function WarToDe(War) {
     return sWar;
 }
 
-var wars = {};
-
-wars.args = "";
-wars.help = "Shows you all upcoming op wars. Annoucnements in English, French and German."
+wars.args = '';
+wars.help = 'Shows you all upcoming op wars. Annoucnements in English, French and German.';
 wars.notservers = [];
-wars.main = (bot, msg) => {
+wars.main = (bot, msg, channel) => {
     updateWars();
     var Wars = require("../ressources/outposts/Wars.json");
     if (Wars.length == 0) {
-	    bot.sendMessage(msg.channel, "No Upcoming OP Wars");
-	} else {
-	    for (var War in Wars) {
-		bot.sendMessage(msg.channel, WarToEn(Wars[War]) + "\n" + WarToFr(Wars[War]) + "\n" + WarToDe(Wars[War]));
-	    }
+	channel.sendMessage("No Upcoming OP Wars");
+    } else {
+	for (var War in Wars) {
+	    channel.sendMessage(WarToEn(Wars[War]) + "\n" + WarToFr(Wars[War]) + "\n" + WarToDe(Wars[War]));
 	}
-}
-module.exports = wars;
+    }
+} 
