@@ -7,7 +7,6 @@ function getBoss(Boss) {
     var found = 0;
     for (var BOSS in Bosses) {
 	var cBoss = Bosses[BOSS];
-	console.log("Boss: " + Boss +  " cBoss.name: " + cBoss.name + " cBoss.time: " + cBoss.time);
 	if (cBoss.name.toLowerCase() == Boss.toLowerCase()) {
 	    sBoss = BOSS;
 	    found = 1;
@@ -31,7 +30,6 @@ function getBoss(Boss) {
 	    var sTill = tillArr[0] + " Hours " + tillArr[1] + " Minutes " + tillArr[2] + " Seconds";
 	    next = "Earliest possible respawn in: " + sTill;
 	}
-	console.log(fBoss.name + " got last killed: " + fBoss.time + ".          " + next);
 	return fBoss.name + " got last killed: " + new Date(fBoss.time).toUTCString() + ".          " + next;
     }
 }

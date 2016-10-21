@@ -7,8 +7,8 @@ hugs.main = (bot, msg, channel) => {
     var aArg = msg.content.split(' ');
     var Arg = aArg[2];
 	if (Arg) {
-	    if (bot.users.get("username", Arg) != null) {
-		channel.sendMessage(bot.user.username + " hugs " + bot.users.get("username", Arg) + "!");
+	    if (bot.users.find("username", Arg) != null) {
+		channel.sendMessage(bot.user.username + " hugs " + bot.users.find("username", Arg) + "!");
 	    } else {
 		channel.sendMessage(bot.user.username + " hugs " + Arg + "!");
 	    }

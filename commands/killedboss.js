@@ -21,7 +21,6 @@ function killedBoss(Boss, d, bot, msg) {
     }
     
     if (!found) {
-	console.log("Couldn't find Boss called: " + Boss);
 	var sTime = cTime.toUTCString();
 	console.log("Added Boss: " + Boss + " to last killed: " + sTime);
 	Bosses[Bosses.length] = {"name":Boss, "time":cTime.getTime()};

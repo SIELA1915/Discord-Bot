@@ -227,7 +227,7 @@ amee.on("message", msg => {
 });
 
 amee.on("presenceUpdate", function(oldUser, newUser) {
-    if (oldUser.status == "offline" && newUser.status == "online" && amee.guild.get("name", "Rift Walkers").members.exists("id", newUser.id)) {
+    if (oldUser.status == "offline" && newUser.status == "online" && amee.guild.find("name", "Rift Walkers").members.exists("id", newUser.id)) {
 	var rChar = require("./ressources/ryzomapi/Char_Map.json")[newUser.id];
 	if (rChar != undefined)
 	    updateAPI([rChar], false);

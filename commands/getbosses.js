@@ -15,13 +15,11 @@ function getBosses() {
     var found = 0;
     for (var BOSS in Bosses) {
 	var cBoss = Bosses[BOSS];
-	console.log(cBoss.time);
 	var bTime = new Date(cBoss.time);
 	bTime.setTime(bTime.getTime() + (48 * 60 * 60 * 1000));
 	var tillArr = timeToGo(bTime);
 	if (tillArr[3] < 0) {
 	    lBoss = cBoss.name;
-	    console.log("first spawned boss: " + lBoss);
 	    found = 1;
 	    break;
 	}
@@ -43,19 +41,6 @@ function getBosses() {
 	    var fBoss = Bosses[BOSS];
 	    if (fBoss.name == lBoss) limit = true;
 	    if (!limit) {
-		if (Spawned == 0) {
-		    sBosses[ind] += fBoss.name;
-		} else {
-		    var add = ", " + fBoss.name;
-		    if (sBosses[ind].length + add.length + 3 > 2000) {
-			sBosses[ind] += "```";
-			++ind;
-			sBosses[ind] = "```diff\n";
-		    }
-		    sBosses[ind] += add;
-		}
-		++Spawned;
-	    } else {
 		if (nSpawned == 0) {
 		    nBosses[nind] += fBoss.name;
 		} else {
@@ -68,6 +53,19 @@ function getBosses() {
 		    nBosses[nind] += nadd;
 		}
 		++nSpawned;
+	    } else {
+		if (Spawned == 0) {
+		    sBosses[ind] += fBoss.name;
+		} else {
+		    var add = ", " + fBoss.name;
+		    if (sBosses[ind].length + add.length + 3 > 2000) {
+			sBosses[ind] += "```";
+			++ind;
+			sBosses[ind] = "```diff\n";
+		    }
+		    sBosses[ind] += add;
+		}
+		++Spawned;
 	    }
 	}
 	sBosses[ind] += "```";
