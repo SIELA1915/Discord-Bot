@@ -135,7 +135,7 @@ var checkCommand = function(msg) {
 			}
 		    }
 		    if (tmp) {
-			valid == true;
+			valid = true;
 			break;
 		    }
 		}
@@ -215,11 +215,21 @@ sage with @Administrators, telling your in-game name and which Guild you're in, 
     }
 });
 
+
+var domain = require('domain');
+var d = domain.create();
+
+d.on('error', function(err) {
+    console.error("DOMAIN Error in checkCommand: ");
+    console.error(err);
+});
+
+
 //when the bot receives a message
 amee.on("message", msg => {
     if (msg.channel.id != "178552737993195530" && msg.channel.id != "176018284364169216" && msg.author != amee.user) {
 	if (msg.content.startsWith('<@'+amee.user.id+'>') || msg.content.startsWith('<@!'+amee.user.id+'>') || msg.content.startsWith(PREFIX)) {
-            checkCommand(msg);
+            d.run(checkCommand(msg));
 	} else {
 	    checkNewCommands(msg);
 	}
@@ -227,11 +237,11 @@ amee.on("message", msg => {
 });
 
 amee.on("presenceUpdate", function(oldUser, newUser) {
-    if (oldUser.status == "offline" && newUser.status == "online" && amee.guild.find("name", "Rift Walkers").members.exists("id", newUser.id)) {
+    if (oldUser.status == "offline" && newUser.status == "online" && amee.guilds.find("name", "Rift Walkers").members.exists("id", newUser.id)) {
 	var rChar = require("./ressources/ryzomapi/Char_Map.json")[newUser.id];
 	if (rChar != undefined)
 	    updateAPI([rChar], false);
-	setTimeout(commands['updateguild'].helper(), 5000);
+	setTimeout(commands['updateguild'].helper, 5000);
     };
 });
 
@@ -243,7 +253,7 @@ amee.on('error', (err) => {
 });
 
 //when the bot disconnects
-amee.on("disconnect", () => {
+amee.on("disconnected", () => {
 	//alert the console
 	console.log("Disconnected!");
 });
