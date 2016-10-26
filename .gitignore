@@ -6,10 +6,6 @@ node_latest_armhf.deb
 ressources/bosses
 ressources/regions
 ressources/outposts/Wars.json
-ressources/ryzomapi/Characters.json
-ressources/ryzomapi/Char_Keys.json
-ressources/ryzomapi/Char_Map.json
-ressources/ryzomapi/Guilds.json
-ressources/ryzomapi/Guild_Keys.json
-ressources/ryzomapi/Guild_Map.json
+ressources/ryzomapi/
 ressources/general
+ressources/atys/timers.json

@@ -213,6 +213,8 @@ AtysDate.prototype.update = function(){
     this.hour=aHour;
     this.minut=aMin;
 
+    this.rlMS=rlMS;
+    
     this.setTime(clockStr, atysClock);
     this.setRLCountdown(rlCountdown, rlDate, channel);
 }

@@ -122,7 +122,9 @@ var checkCommand = function(msg) {
         if(typeof msg.content.split(' ')[1] === 'undefined') {
             //bot.sendMessage(msg, Array(16).join('wat' -1) + " Batman!");
             ping(msg);
-        } else {
+        } else if (commands[msg.content.split(' ')[1].toLowerCase()] == undefined) {
+	    msg.channel.sendMessage("Unknown command. Use ```/amee help```for a list of commands.");
+	} else {
 	    var ch = msg.channel;
 	    var c = msg.content.split(' ')[1].toLowerCase();
 	    if (ch.type == "dm" || ch.type == "group") {
@@ -197,7 +199,20 @@ amee.on("ready", () => {
     amee.user.setStatus("online", "watching over Atys");
     var gl = require("./globalFuncs.js")();
     loadCommands();
-/*    var request = require("request");
+    var Timers = require ("./ressources/atys/timers.json");
+    var tFuncs = require("./timerFuncs.js")();
+    for (var T in Timers) {
+	var cT = Timers[T];
+	var aT = timeToGo(new Date(cT["time"]));
+	if (aT[3] < 0)
+	    Timers.splice(T, 1);
+	else if (tFuncs[cT["function"]])
+	    setTimeout(tFuncs[cT["function"]], (aT[0] * 60 * 60 * 1000) + (aT[1] * 60 * 1000) + (aT[2] * 1000), T, amee);
+	else
+	    console.log("Can't find Timer function " + cT["function"]);
+    }
+    fs.writeFileSync(__dirname + "/ressources/atys/timers.json", JSON.stringify(Timers), "utf8");
+    /*    var request = require("request");
     request({ // be sure to have request installed
    method: "GET",
    uri: "http://i.imgur.com/pfmJgi8.jpg",
@@ -215,21 +230,10 @@ sage with @Administrators, telling your in-game name and which Guild you're in, 
     }
 });
 
-
-var domain = require('domain');
-var d = domain.create();
-
-d.on('error', function(err) {
-    console.error("DOMAIN Error in checkCommand: ");
-    console.error(err);
-});
-
-
-//when the bot receives a message
 amee.on("message", msg => {
     if (msg.channel.id != "178552737993195530" && msg.channel.id != "176018284364169216" && msg.author != amee.user) {
 	if (msg.content.startsWith('<@'+amee.user.id+'>') || msg.content.startsWith('<@!'+amee.user.id+'>') || msg.content.startsWith(PREFIX)) {
-            d.run(checkCommand(msg));
+            checkCommand(msg);
 	} else {
 	    checkNewCommands(msg);
 	}
@@ -245,22 +249,19 @@ amee.on("presenceUpdate", function(oldUser, newUser) {
     };
 });
 
-// when things break
 amee.on('error', (err) => {
     console.log("————— BIG ERROR —————");
     console.log(err);
     console.log("——— END BIG ERROR ———");
 });
 
-//when the bot disconnects
 amee.on("disconnected", () => {
-	//alert the console
 	console.log("Disconnected!");
 });
 
 process.on('uncaughtException', function(err) {
-    // handle the error safely
     console.log(err)
+    process.exit(1);
 })
 
 amee.login("MTc4NTkwMjYyMTQ5MzgyMTQ0.Cg_U-g.IvSBjQxpgsd0YsXISU9UflbZVug");
