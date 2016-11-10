@@ -6,18 +6,13 @@ var gameCycle=1407507149;
 
 function getGameCycle(callback) {
     var request = require("request");
-    var xml2js = require("xml2js");
-    var parser = new xml2js.Parser({explicitArray: false});
-    request.post({url:'http://api.ryzom.com/time.php', form: {format:"xml"}}, function(err,httpResponse,body){
+    request.post({url:'http://api.ryzom.com/time.php'}, function(err,httpResponse,body){
 		//              console.log("---------------Error--------------" + err);
 		//              console.log("---------------Body---------------" + body);
 		//              console.log("---------------Http---------------" + httpResponse);
-		parser.parseString(body, function (err, result) {
-		    console.log(err);
-		    gameCycle=parseInt(result["shard_time"]["server_tick"]);
-		    callback(parseInt(result["shard_time"]["server_tick"]));
-		});
-	    });
+	gameCycle=parseInt(body);
+	callback(parseInt(body));
+    })
 }
 
 var seasonNames= ['spring','summer','autumn','winter'];
@@ -85,15 +80,15 @@ function AtysDate(l, c, t){
     channel = c;
 
     getGameCycle(function(cycle) {
-    
-    // get function parameter or global value
-    tick = tick || cycle;
+	
+	// get function parameter or global value
+	tick = tick || cycle;
 
 	
-    if (live)
-	setInterval(function(){ me.update();}, 1000); // 1 sec
-    else
-	setTimeout(function(){ me.update();}, 1000);
+	if (live)
+	    setInterval(function(){ me.update();}, 1000); // 1 sec
+	else
+	    setTimeout(function(){ me.update();}, 1000);
     });
 }
 
