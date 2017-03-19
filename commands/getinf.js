@@ -4,15 +4,16 @@ var fs = require("fs");
 
 function getInfo(Mode, Subject) {
     var inf = [];
+    Subject = Subject.toLowerCase();
     switch (Mode) {
     case "B":
 	var Bosses = require("../ressources/bosses/Bosses.json");
 	//Find corresponding Boss
-	var sBoss = 0;
+	var sBoss = -1;
 	var found = 0;
 	for (var BOSS in Bosses) {
 	    var cBoss = Bosses[BOSS];
-	    console.log("Boss: " + Subject +  " cBoss.name: " + cBoss.name + " cBoss.time: " + cBoss.time);
+//	    console.log("Boss: " + Subject +  " cBoss.name: " + cBoss.name + " cBoss.time: " + cBoss.time);
 	    if (cBoss.name == Subject) {
 		sBoss = BOSS;
 		found = 1;
@@ -37,9 +38,9 @@ function getInfo(Mode, Subject) {
 	break;
     case "L":
 	switch(Subject){
-	case "Verdant Heights":
-	case "Matis":
-	case "Forest":
+	case "verdant heights":
+	case "matis":
+	case "forest":
 	    var infoText = __dirname + "/../ressources/regions/info/vh.txt";
 	    try {
 		if (fs.statSync(infoText).isFile()) {
@@ -58,9 +59,9 @@ function getInfo(Mode, Subject) {
 		
 	    }
 	    break;
-	case "Aeden Aqueous":
-	case "Tryker":
-	case "Lakes":
+	case "aeden aqueous":
+	case "tryker":
+	case "lakes":
 	    var infoText = __dirname + "/../ressources/regions/info/aa.txt";
 	    try {
 		if (fs.statSync(infoText).isFile()) {
@@ -79,9 +80,9 @@ function getInfo(Mode, Subject) {
 		
 	    }
 	    break;
-	case "Witherings":
-	case "Zorai":
-	case "Jungle":
+	case "witherings":
+	case "zorai":
+	case "jungle":
 	    var infoText = __dirname + "/../ressources/regions/info/wi.txt";
 	    try {
 		if (fs.statSync(infoText).isFile()) {
@@ -100,9 +101,9 @@ function getInfo(Mode, Subject) {
 		
 	    }
 	    break;
-	case "Burning Desert":
-	case "Fyros":
-	case "Desert":
+	case "burning desert":
+	case "fyros":
+	case "desert":
 	    var infoText = __dirname + "/../ressources/regions/info/bd.txt";
 	    try {
 		if (fs.statSync(infoText).isFile()) {
@@ -121,8 +122,9 @@ function getInfo(Mode, Subject) {
 		
 	    }
 	    break;
-	case "Nexus":
-	    var infoText = __dirname + "/../ressources/regions/info/ne.txt";
+	case "nexus minor":
+	case "nexus":
+	    var infoText = __dirname + "/../ressources/regions/info/nm.txt";
 	    try {
 		if (fs.statSync(infoText).isFile()) {
 		    inf[0] = fs.readFileSync(infoText, "utf8");
@@ -130,7 +132,7 @@ function getInfo(Mode, Subject) {
 	    } catch(e) {
 		
 	    }
-	    var pic = __dirname + "/../ressources/regions/map/ne.png";
+	    var pic = __dirname + "/../ressources/regions/map/nm.png";
 	    try {
 		if (fs.statSync(pic).isFile()) {
 		    inf[1] = pic;
@@ -140,7 +142,7 @@ function getInfo(Mode, Subject) {
 		
 	    }
 	    break;
-	case "Wastelands":
+	case "wastelands":
 	    var infoText = __dirname + "/../ressources/regions/info/wl.txt";
 	    try {
 		if (fs.statSync(infoText).isFile()) {
@@ -196,7 +198,7 @@ getinf.args = '<mode> <name>';
 getinf.help = 'Modes are: \nB - get Info about a Boss and its spawn locations.\nL - get Info about a Region and spawn locations for Bosses in it';
 getinf.notservers = [ 'Ryzom Karavan' ];
 getinf.main = (bot, msg, channel) => {
-    var help = "Use: ```xl\n/amee getInf B Boss     'gives info and map of spawns for Boss'\n/amee getInf L Land     'gives info and map of spawns for region'\n```";
+    var help = "Use: ```xl\n/amee getInf B Boss     'gives info and map of spawns for Boss'\n/amee getInf L Land     'gives info and map of spawns for region'\n/amee getInf G Subject     'gives info and file to selected Subject, if present'\n```";
     var aArg = msg.content.split(' ');
     if (aArg.length >= 4) {
 	if (aArg[2] == "B" || aArg[2] == "L" || aArg[2] == "G") {

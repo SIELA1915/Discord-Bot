@@ -9,6 +9,7 @@ season.main = (bot, msg, channel) => {
     atysDate.setRLCountdown = (str, rlDate, channel) => {
 	channel.sendMessage("Next season change in: " + str)
 	    .catch(console.log);
+	delete require.cache[require.resolve('./../ressources/atys/time.js')];
     }
 }
 module.exports = season;

@@ -6,7 +6,7 @@ String.prototype.padRight = function(l,c) {return this+Array((l-this.length+1)<0
 var Discord = require("discord.js");
 var fs = require('fs');
 
-var amee = new Discord.Client({autoReconnect: true});
+var amee = new Discord.Client();
 
 const OWNERID = '173500455148584960'; // your user id here
 const PREFIX = '/amee'; // prefix of the bot e.g. elmo
@@ -196,7 +196,8 @@ var checkNewCommands = (msg) => {
 //when bot is ready load commands
 amee.on("ready", () => {
     console.log("Ready to begin! Serving in " + amee.channels.array().length + "channels");
-    amee.user.setPresence({"status":"online", "game":"watching over Atys"});
+    amee.user.setStatus("online");
+    amee.user.setGame("watching over Atys");
     var gl = require("./globalFuncs.js")();
     loadCommands();
     var Timers = require ("./ressources/atys/timers.json");
@@ -205,9 +206,9 @@ amee.on("ready", () => {
 	var cT = Timers[T];
 	var aT = timeToGo(new Date(cT["time"]));
 	if (aT[3] < 0)
-	    setTimeout(tFuncs[cT["function"]], 1, T, amee, true);
+	    setTimeout(tFuncs[cT["function"]], 1, T, amee, true, cT["prep"]);
 	else if (tFuncs[cT["function"]])
-	    setTimeout(tFuncs[cT["function"]], (aT[0] * 60 * 60 * 1000) + (aT[1] * 60 * 1000) + (aT[2] * 1000), T, amee);
+	    setTimeout(tFuncs[cT["function"]], (aT[0] * 60 * 60 * 1000) + (aT[1] * 60 * 1000) + (aT[2] * 1000), T, amee, false, cT["prep"]);
 	else
 	    console.log("Can't find Timer function " + cT["function"]);
     }
@@ -223,10 +224,10 @@ amee.on("ready", () => {
 
 amee.on("guildMemberAdd", function(member) {
     if (member.guild.name == "Ryzom Karavan") {
-	member.guild.channels.get("name", "verification").sendMessage(amee.user.username + " Aiye, my follower! Welcome to the Ryzom Karavan Discord Server! Please leave a mes\
+	member.guild.channels.find("name", "verification").sendMessage(amee.user.username + " Aiye, my follower! Welcome to the Ryzom Karavan Discord Server! Please leave a mes\
 sage with @Administrators, telling your in-game name and which Guild you're in, so we can ensure that no spies have access to our server.");
     } else if (member.guild.name == "Rift Walkers") {
-	member.guild.channels.get("name", "verify").sendMessage("Welcome to the server of the Rift Walkers! Get to voice chat with our members or ask Amee for useful information. But first, you got to highlight HO's or GL and tell them your ingame name, so they can verify you're a member of us. Have fun!");
+	member.guild.channels.find("name", "verify").sendMessage("Welcome to the server of the Rift Walkers! Get to voice chat with our members or ask Amee for useful information. But first, you got to highlight HO's or GL and tell them your ingame name, so they can verify you're a member of us. Have fun!");
     }
 });
 

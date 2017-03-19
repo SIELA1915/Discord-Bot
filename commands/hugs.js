@@ -20,7 +20,7 @@ hugs.tags = [ 'hug' ];
 hugs.mentions = [ [ 'hug <@', 'hugs <@' ] ];
 hugs.obl = [];
 hugs.tagged = (bot, msg, channel) => {
-    var aArg = msg.mentions;
+    var aArg = msg.mentions.users.array();
 
     var finArgs = [];
     var ordArgs = {};
