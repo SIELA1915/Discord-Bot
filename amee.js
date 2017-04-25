@@ -198,21 +198,6 @@ amee.on("ready", () => {
     console.log("Ready to begin! Serving in " + amee.channels.array().length + "channels");
     amee.user.setStatus("online");
     amee.user.setGame("watching over Atys");
-    var gl = require("./globalFuncs.js")();
-    loadCommands();
-    var Timers = require ("./ressources/atys/timers.json");
-    var tFuncs = require("./timerFuncs.js")();
-    for (var T in Timers) {
-	var cT = Timers[T];
-	var aT = timeToGo(new Date(cT["time"]));
-	if (aT[3] < 0)
-	    setTimeout(tFuncs[cT["function"]], 1, T, amee, true, cT["prep"]);
-	else if (tFuncs[cT["function"]])
-	    setTimeout(tFuncs[cT["function"]], (aT[0] * 60 * 60 * 1000) + (aT[1] * 60 * 1000) + (aT[2] * 1000), T, amee, false, cT["prep"]);
-	else
-	    console.log("Can't find Timer function " + cT["function"]);
-    }
-    fs.writeFileSync(__dirname + "/ressources/atys/timers.json", JSON.stringify(Timers), "utf8");
     /*    var request = require("request");
     request({ // be sure to have request installed
    method: "GET",
@@ -266,3 +251,19 @@ process.on('uncaughtException', function(err) {
 })
 
 amee.login("MTc4NTkwMjYyMTQ5MzgyMTQ0.Cg_U-g.IvSBjQxpgsd0YsXISU9UflbZVug");
+
+var gl = require("./globalFuncs.js")();
+loadCommands();
+var Timers = require ("./ressources/atys/timers.json");
+var tFuncs = require("./timerFuncs.js")();
+for (var T in Timers) {
+    var cT = Timers[T];
+    var aT = timeToGo(new Date(cT["time"]));
+    if (aT[3] < 0 && tFuncs[cT["function"]])
+	setTimeout(tFuncs[cT["function"]], 1, T, amee, true);
+    else if (tFuncs[cT["function"]])
+	setTimeout(tFuncs[cT["function"]], (aT[0] * 60 * 60 * 1000) + (aT[1] * 60 * 1000) + (aT[2] * 1000), T, amee, false);
+    else
+	console.log("Can't find Timer function " + cT["function"]);
+}
+fs.writeFileSync(__dirname + "/ressources/atys/timers.json", JSON.stringify(Timers), "utf8");
